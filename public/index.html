@@ -7,7 +7,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
+            background-color: #ccc; /* Light mode background image */
+    background-size: cover;
         }
         
         .chat-container {
@@ -25,11 +26,7 @@
             border-bottom: 1px solid #ddd;
         }
         
-        .chat-messages {
-            padding: 10px;
-            overflow-y: auto;
-            height: 400px;
-        }
+        
         
         .message {
             margin-bottom: 10px;
@@ -119,10 +116,39 @@
             left: 24px;
             background: #fff;
         }
-        main.night{
-            background: #000;
-            color: #fff;
-        }
+        main.night {
+    background-image: url('https://tinyurl.com/yw84dqs6'); /* Night mode background image */
+    background-size: cover;
+    color: #fff;
+}
+
+.chat-messages {
+    padding: 10px;
+    overflow-y: auto;
+    height: 400px;
+    background-image: url('https://tinyurl.com/2x6cngm5');/* Light mode chat background */
+}
+
+main.night .chat-messages {
+    background-image: url('https://tinyurl.com/yw84dqs6'); /* Night mode chat background */
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    word-break: break-word;
+    width: fit-content;
+    max-width: 50%;
+}
+
+main.night .user-message {
+    background-color: #333; /* Night mode user message background */
+}
+
+main.night .bot-message {
+    background-color: cyan; /* Night mode bot message background */
+}
     </style>
 </head>
 <body>
@@ -134,7 +160,7 @@
 Created by asta ichiyukimori</h3>
 </marquee>
         </div>
-        <main>
+        <main class="night">
         <div class="chat-messages" id="chat-messages" style="display: flex; flex-direction: column;">
             <div class="bot-message-container">
                 <div class="message bot-message">
