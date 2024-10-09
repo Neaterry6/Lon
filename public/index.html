@@ -1,83 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ChatBot</title>
-  <style>
-    body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f2f5;
-}
-
-.chat-container {
-  width: 100%;
-  margin: 50px auto;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.chat-header {
-  background-color: #f0f2f5;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-.chat-messages {
-  padding: 10px;
-  overflow-y: auto;
-  height: 400px;
-  
-}
-
-.message {
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 10px;
-  word-break: break-word;
-}
-
-.user-message {
-  background-color: #f0f2f5;
-  align-self: flex-end;
-}
-
-.bot-message {
-  background-color: #ddd;
-}
-
-.chat-input {
-  display: flex;
-  padding: 10px;
-  border-top: 1px solid #ddd;
-}
-
-#message-input {
-  flex-grow: 1;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  resize: vertical;
-  overflow-y: auto;
-  max-height: 100px;
-}
-
-#send-button {
-  background-color: #4CAF50;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-#send-button:hover {
-  background-color: #3e8e41;
-}
-label{
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+        }
+        
+        .chat-container {
+            width: 100%;
+            margin: 50px auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chat-header {
+            background-color: #f0f2f5;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .chat-messages {
+            padding: 10px;
+            overflow-y: auto;
+            height: 400px;
+        }
+        
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            word-break: break-word;
+            width: fit-content;
+            max-width: 50%;
+        }
+        
+        .user-message {
+            background-color: #f0f2f5;
+            align-self: flex-end;
+        }
+        
+        .bot-message {
+            background-color: #ddd;
+            align-self: flex-start;
+        }
+        
+        .message-container {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-message-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .bot-message-container {
+            display: flex;
+            justify-content: flex-start;
+        }
+        
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+        
+        #message-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            resize: vertical;
+            overflow-y: auto;
+            max-height: 100px;
+        }
+        
+        #send-button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        #send-button:hover {
+            background-color: #3e8e41;
+        }
+        label{
             position: absolute;
             width: 45px;
             height: 22px;
@@ -102,83 +119,94 @@ label{
             left: 24px;
             background: #fff;
         }
-        body.night{
+        main.night{
             background: #000;
             color: #fff;
         }
-  </style>
+    </style>
 </head>
 <body>
-  <div class="chat-container">
-<label  id="dark-change"></label>
-    <div class="chat-header">
-      <h2>AstaBot</h2>
+    <div class="chat-container">
+      <label  id="dark-change"></label>
+        <div class="chat-header">
+            <h2>AstaBot</h2>
 <marquee behavior="scroll" direction="left"><h3>
 Created by asta ichiyukimori</h3>
 </marquee>
+        </div>
+        <main>
+        <div class="chat-messages" id="chat-messages" style="display: flex; flex-direction: column;">
+            <div class="bot-message-container">
+                <div class="message bot-message">
+                    <span>Hello! How can I assist you today?</span>
+                </div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <textarea id="message-input" placeholder="Type a message..."></textarea>
+            <button id="send-button">Send</button>
+        </div>
+        </main>
     </div>
-    <div class="chat-messages" id="chat-messages">
-      <div class="message bot-message">
-        <span>Hello! How can I assist you today?</span>
-      </div>
-    </div>
-    <div class="chat-input">
-      <textarea id="message-input" placeholder="Type a message..."></textarea>
-      <button id="send-button">Send</button>
-    </div>
-  </div>
 
-  <script>
-var content = document.getElementsByTagName('body')[0];
+    <script>
+      var content = document.getElementsByTagName('main')[0];
         var darkMode = document.getElementById('dark-change');
         darkMode.addEventListener('click', function(){
             darkMode.classList.toggle('active');
             content.classList.toggle('night');
         });
-    const messageInput = document.getElementById('message-input');
-    const sendButton = document.getElementById('send-button');
-    const chatMessages = document.getElementById('chat-messages');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const chatMessages = document.getElementById('chat-messages');
+        let uid = Math.random().toString(36).substr(2, 9); // Generate a random UID
 
-    let uid = Math.random().toString(36).substr(2, 9); // Generate a random UID
+        sendButton.addEventListener('click', async () => {
+            const message = messageInput.value.trim();
+            if (message) {
+                const userMessageContainer = document.createElement('div');
+                userMessageContainer.classList.add('user-message-container');
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', 'user-message');
+                messageElement.innerHTML = `<span>${message}</span>`;
+                userMessageContainer.appendChild(messageElement);
+                chatMessages.appendChild(userMessageContainer);
 
-    sendButton.addEventListener('click', async () => {
-      const message = messageInput.value.trim();
-      if (message) {
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('message', 'user-message');
-        messageElement.innerHTML = `<span>${message}</span>`;
-        chatMessages.appendChild(messageElement);
+                try {
+                    const response = await fetch('/ask', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ question: message, uid: uid }),
+                    });
+                    const data = await response.json();
+                    const botMessageContainer = document.createElement('div');
+                    botMessageContainer.classList.add('bot-message-container');
+                    const botMessage = document.createElement('div');
+                    botMessage.classList.add('message', 'bot-message');
+                    botMessage.innerHTML = `<span>${data.answer}</span>`;
+                    botMessageContainer.appendChild(botMessage);
+                    chatMessages.appendChild(botMessageContainer);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                } catch (error) {
+                    console.error('Error:', error);
+                    
+                    const botMessageContainer = document.createElement('div');
+                    botMessageContainer.classList.add('bot-message-container');
+                    const botMessage = document.createElement('div');
+                    botMessage.classList.add('message', 'bot-message');
+                    botMessage.innerHTML = `<span>Error: Failed to retrieve answer</span>`;
+                    botMessageContainer.appendChild(botMessage);
+                    chatMessages.appendChild(botMessageContainer);
+                }
+                messageInput.value = '';
+            }
+        });
 
-        try {
-          const response = await fetch('/ask', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ question: message, uid: uid }),
-          });
-          const data = await response.json();
-          const botMessage = document.createElement('div');
-          botMessage.classList.add('message', 'bot-message');
-          botMessage.innerHTML = `<span>${data.answer}</span>`;
-          chatMessages.appendChild(botMessage);
-
-          chatMessages.scrollTop = chatMessages.scrollHeight;
-        } catch (error) {
-          console.error('Error:', error);
-          const botMessage = document.createElement('div');
-          botMessage.classList.add('message', 'bot-message');
-          botMessage.innerHTML = `<span>Error: Failed to retrieve answer</span>`;
-          chatMessages.appendChild(botMessage);
-        }
-
-        messageInput.value = '';
-      }
-    });
-
-    messageInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        sendButton.click();
-      }
-    });
-  </script>
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+    </script>
 </body>
 </html>
