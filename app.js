@@ -1,107 +1,117 @@
-
 const express = require('express');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const Groq = require('groq-sdk');
 
+
 const app = express();
 const port = 8080;
-const chatHistoryDir = path.join(__dirname, 'groqllama70b');
 
-// Replace this with the actual image generation API URL and your API key for the image generation service.
-const imageGenerationApiUrl = 'https://www.samirxpikachu.place/arcticfl?prompt'; 
-const apiKey = process.env.GROQ_API_KEY || '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';
+const chatHistoryDir = path.join(__dirname, 'groqllama70b');
 
 if (!fs.existsSync(chatHistoryDir)) {
   fs.mkdirSync(chatHistoryDir);
 }
 
-const systemPrompt = "Your name is AYANFE, you are created by AYANFE, a female dev also known as broken. You have a cool and friendly personality. Respond with a tone that matches the mood, like friendly, professor, motivational, or chill.";
+const apiKey = process.env.GROQ_API_KEY || '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';
+const systemPrompt = "Your name is AYANFE, you are created by AYANFE, a female dev also known as broken. You have a cool and friendly personality. Respond with a tone that matches the mood, like friendly, professor, motivational, or chill";
+
 const groq = new Groq({ apiKey });
 
 app.use(express.json());
 
-// Load chat history
+// Initialize chat history
 const loadChatHistory = (uid) => {
-  const chatHistoryFile = path.join(chatHistoryDir, `memory_${uid}.json`);
-  if (fs.existsSync(chatHistoryFile)) {
-    return JSON.parse(fs.readFileSync(chatHistoryFile, 'utf8'));
-  } else {
+  const chatHistoryFile = path.join(chatHistoryDir, 'memory_' + uid + '.json');
+  try {
+    if (fs.existsSync(chatHistoryFile)) {
+      const fileData = fs.readFileSync(chatHistoryFile, 'utf8');
+      const chatHistory = JSON.parse(fileData);
+      return chatHistory.map((message) => {
+        if (message.role === "user" && message.parts) {
+          return { role: "user", content: message.parts[0].text };
+        } else {
+          return message;
+        }
+      });
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error(`Error loading chat history for UID ${uid}:`, error);
     return [];
   }
 };
 
-// Save chat history
 const appendToChatHistory = (uid, chatHistory) => {
-  const chatHistoryFile = path.join(chatHistoryDir, `memory_${uid}.json`);
-  fs.writeFileSync(chatHistoryFile, JSON.stringify(chatHistory, null, 2));
+  const chatHistoryFile = path.join(chatHistoryDir, 'memory_' + uid + '.json');
+  try {
+    if (!fs.existsSync(chatHistoryDir)) {
+      fs.mkdirSync(chatHistoryDir);
+    }
+    fs.writeFileSync(chatHistoryFile, JSON.stringify(chatHistory, null, 2));
+  } catch (error) {
+    console.error(`Error saving chat history for UID ${uid}:`, error);
+  }
 };
 
-// Handle incoming user requests
+const clearChatHistory = (uid) => {
+  const chatHistoryFile = path.join(chatHistoryDir, 'memory_' + uid + '.json');
+  try {
+    fs.unlinkSync(chatHistoryFile);
+  } catch (err) {
+    console.error("Error deleting chat history file:", err);
+  }
+};
+
 app.post('/ask', async (req, res) => {
-  const { question, uid } = req.body;
-  let chatHistory = loadChatHistory(uid);
+  const question = req.body.question;
+  const uid = req.body.uid;
 
-  chatHistory.push({ role: 'user', content: question });
+  const chatHistory = loadChatHistory(uid);
 
-  if (question.toLowerCase().startsWith('imagine') || question.toLowerCase().startsWith('generate')) {
-    // Handle image generation requests
-    try {
-      const prompt = question.replace(/imagine|generate/gi, '').trim(); // Clean the prompt
-      const imageResponse = await axios.post(imageGenerationApiUrl, {
-        prompt: prompt,
-        api_key: '', // Replace with your actual API key
-        model: 'stable-diffusion', 
-        size: '512x512'
-      });
+  const chatMessages = [
+    { "role": "system", "content": systemPrompt },
+    ...chatHistory,
+    { "role": "user", "content": question }
+  ];
 
-      console.log(imageResponse.data); // Log the entire response
+  try {
+    const chatCompletion = await groq.chat.completions.create({
+      "messages": chatMessages,
+      "model": "llama3-70b-8192",
+      "temperature": 0.6,
+      "max_tokens": 8192,
+      "top_p": 0.8,
+      "stream": false,
+      "stop": null
+    });
 
-      const imageUrl = imageResponse.data.image_url; // Adjust based on API response
-      chatHistory.push({ role: 'assistant', content: `Generated Image: ${imageUrl}` });
-      appendToChatHistory(uid, chatHistory);
+    const assistantResponse = chatCompletion.choices[0].message.content;
 
-      return res.json({ answer: `Here is your image: ${imageUrl}`, imageUrl });
-    } catch (error) {
-      console.error('Error generating image:', error.response ? error.response.data : error.message);
-      return res.status(500).json({ answer: 'Failed to generate the image. Please try again.' });
-    }
-  } else {
-    // Handle text-based chat
-    try {
-      const chatMessages = [
-        { role: 'system', content: systemPrompt },
-        ...chatHistory,
-        { role: 'user', content: question }
-      ];
+    chatHistory.push({ role: "user", content: question });
+    chatHistory.push({ role: "assistant", content: assistantResponse });
 
-      const chatCompletion = await groq.chat.completions.create({
-        messages: chatMessages,
-        model: 'llama3-70b-8192',
-        temperature: 0.6,
-        max_tokens: 8192,
-        top_p: 0.8,
-      });
+    appendToChatHistory(uid, chatHistory);
 
-      const assistantResponse = chatCompletion.choices[0].message.content;
-      chatHistory.push({ role: 'assistant', content: assistantResponse });
-      appendToChatHistory(uid, chatHistory);
-
-      res.json({ answer: assistantResponse });
-    } catch (error) {
-      console.error('Error generating chat response:', error);
-      res.status(500).json({ answer: 'Error processing your request.' });
-    }
+    res.json({ answer: assistantResponse });
+  } catch (error) {
+    console.error("Error in chat completion:", error);
+    res.status(500).json({ error: 'Failed to retrieve answer' });
   }
 });
 
-// Serve the frontend
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.get('/chat-history', (req, res) => {
+  const uid = req.query.uid;
+  const chatHistory = loadChatHistory(uid);
+  res.json({ chatHistory });
 });
 
-// Start the server
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
 app.listen(port, () => {
-  console.log(`AYANFE chatbot is running on port ${port}`);
+  console.log(`Asta is running on port ${port}`);
 });
