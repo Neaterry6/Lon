@@ -1,238 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatBot</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #ccc; /* Light mode background image */
-    background-size: cover;
-        }
-        
-        .chat-container {
-            width: 100%;
-            margin: 50px auto;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .chat-header {
-            background-color: #f0f2f5;
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        
-        
-        .message {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 10px;
-            word-break: break-word;
-            width: fit-content;
-            max-width: 50%;
-        }
-        
-        .user-message {
-            background-color: #f0f2f5;
-            align-self: flex-end;
-        }
-        
-        .bot-message {
-            background-color: #ddd;
-            align-self: flex-start;
-        }
-        
-        .message-container {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .user-message-container {
-            display: flex;
-            justify-content: flex-end;
-        }
-        
-        .bot-message-container {
-            display: flex;
-            justify-content: flex-start;
-        }
-        
-        .chat-input {
-            display: flex;
-            padding: 10px;
-            border-top: 1px solid #ddd;
-        }
-        
-        #message-input {
-            flex-grow: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            resize: vertical;
-            overflow-y: auto;
-            max-height: 100px;
-        }
-        
-        #send-button {
-            background-color: #4CAF50;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        
-        #send-button:hover {
-            background-color: #3e8e41;
-        }
-        label{
-            position: absolute;
-            width: 45px;
-            height: 22px;
-            right: 20px;
-            top: 20px;
-            border: 2px solid;
-            border-radius: 20px;
-        }
-        label:before{
-            position: absolute;
-            content: '';
-            width:20px;
-            height: 20px;
-            left: 1px;
-            top: 1px;
-            border-radius: 50%;
-            background: #000;
-            cursor: pointer;
-            transition: 0.4s;
-        }
-        label.active:before{
-            left: 24px;
-            background: #fff;
-        }
-        main.night {
-    background-image: url('https://tinyurl.com/yw84dqs6'); /* Night mode background image */
-    background-size: cover;
-    color: #fff;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HEY Y'ALL WELCOME TO AYANFE AI❣️🥀💜</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('https://i.imgur.com/47KnbfN.jpeg'); /* Your image as background */
+      background-size: cover;
+      background-position: center;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-.chat-messages {
-    padding: 10px;
-    overflow-y: auto;
-    height: 400px;
-    background-image: url('https://tinyurl.com/2x6cngm5');/* Light mode chat background */
-}
+    .chat-container {
+      width: 700px;
+      background-color: rgba(18, 0, 53, 0.8); /* Adding transparency to the chat container */
+      border: 1px solid #2b2b40;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      height: 80vh;
+    }
 
-main.night .chat-messages {
-    background-image: url('https://tinyurl.com/yw84dqs6'); /* Night mode chat background */
-}
+    .chat-header {
+      background-color: rgba(18, 0, 53, 0.9);
+      padding: 20px;
+      border-bottom: 1px solid #2b2b40;
+      text-align: center;
+      color: #fff;
+    }
 
-.message {
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    word-break: break-word;
-    width: fit-content;
-    max-width: 50%;
-}
+    .chat-header h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+      color: #e4e4e7;
+    }
 
-main.night .user-message {
-    background-color: #333; /* Night mode user message background */
-}
+    .chat-messages {
+      padding: 20px;
+      flex-grow: 1;
+      overflow-y: auto;
+      background-color: rgba(14, 3, 36, 0.7); /* Transparent background inside chat */
+      color: #fff;
+      background-image: url('https://i.imgur.com/47KnbfN.jpeg'); /* Background image inside chat */
+      background-size: cover;
+      background-position: center;
+      border-radius: 0 0 10px 10px;
+    }
 
-main.night .bot-message {
-    background-color: cyan; /* Night mode bot message background */
-}
-    </style>
+    .message {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 10px;
+      word-break: break-word;
+      max-width: 80%;
+      position: relative;
+    }
+
+    .user-message {
+      background-color: #390065;
+      color: #fff;
+      align-self: flex-end;
+      text-align: right;
+      margin-left: auto;
+    }
+
+    .bot-message {
+      background-color: #4b006f;
+      color: #fff;
+      text-align: left;
+    }
+
+    .bot-image {
+      background-color: #4b006f;
+      color: #fff;
+      text-align: left;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .copy-button {
+      position: absolute;
+      right: -30px;
+      top: 10px;
+      background-color: #ff00ff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      padding: 5px;
+      font-size: 12px;
+    }
+
+    .copy-button:hover {
+      background-color: #d900d9;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 15px;
+      background-color: rgba(18, 0, 53, 0.9);
+      border-top: 1px solid #2b2b40;
+    }
+
+    #message-input {
+      flex-grow: 1;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #1b0a43;
+      color: #fff;
+      border: none;
+      font-size: 16px;
+      resize: none;
+      max-height: 100px;
+    }
+
+    #send-button {
+      background-color: #ff00ff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    #send-button:hover {
+      background-color: #d900d9;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #57007f;
+      border-radius: 10px;
+    }
+  </style>
 </head>
 <body>
-    <div class="chat-container">
-      <label  id="dark-change"></label>
-        <div class="chat-header">
-            <h2>AstaBot</h2>
-<marquee behavior="scroll" direction="left"><h3>
-Created by asta ichiyukimori</h3>
-</marquee>
-        </div>
-        <main class="night">
-        <div class="chat-messages" id="chat-messages" style="display: flex; flex-direction: column;">
-            <div class="bot-message-container">
-                <div class="message bot-message">
-                    <span>Hello! How can I assist you today?</span>
-                </div>
-            </div>
-        </div>
-        <div class="chat-input">
-            <textarea id="message-input" placeholder="Type a message..."></textarea>
-            <button id="send-button">Send</button>
-        </div>
-        </main>
+  <div class="chat-container">
+    <div class="chat-header">
+      <h2>ÃƳÃÑFÊ❣️🖤🥀</h2>
     </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="message bot-message">
+        <span>Hello! How can I assist you today?</span>
+        <button class="copy-button" onclick="copyMessage(this)">Copy</button>
+      </div>
+    </div>
+    <div class="chat-input">
+      <textarea id="message-input" placeholder="Type a message..."></textarea>
+      <button id="send-button">Send</button>
+    </div>
+  </div>
 
-    <script>
-      var content = document.getElementsByTagName('main')[0];
-        var darkMode = document.getElementById('dark-change');
-        darkMode.addEventListener('click', function(){
-            darkMode.classList.toggle('active');
-            content.classList.toggle('night');
-        });
-        const messageInput = document.getElementById('message-input');
-        const sendButton = document.getElementById('send-button');
-        const chatMessages = document.getElementById('chat-messages');
-        let uid = Math.random().toString(36).substr(2, 9); // Generate a random UID
+  <script>
+    const messageInput = document.getElementById('message-input');
+    const sendButton = document.getElementById('send-button');
+    const chatMessages = document.getElementById('chat-messages');
 
-        sendButton.addEventListener('click', async () => {
-            const message = messageInput.value.trim();
-            if (message) {
-                const userMessageContainer = document.createElement('div');
-                userMessageContainer.classList.add('user-message-container');
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('message', 'user-message');
-                messageElement.innerHTML = `<span>${message}</span>`;
-                userMessageContainer.appendChild(messageElement);
-                chatMessages.appendChild(userMessageContainer);
+    let uid = Math.random().toString(36).substr(2, 9); // Generate a random UID
 
-                try {
-                    const response = await fetch('/ask', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ question: message, uid: uid }),
-                    });
-                    const data = await response.json();
-                    const botMessageContainer = document.createElement('div');
-                    botMessageContainer.classList.add('bot-message-container');
-                    const botMessage = document.createElement('div');
-                    botMessage.classList.add('message', 'bot-message');
-                    botMessage.innerHTML = `<span>${data.answer}</span>`;
-                    botMessageContainer.appendChild(botMessage);
-                    chatMessages.appendChild(botMessageContainer);
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                } catch (error) {
-                    console.error('Error:', error);
-                    
-                    const botMessageContainer = document.createElement('div');
-                    botMessageContainer.classList.add('bot-message-container');
-                    const botMessage = document.createElement('div');
-                    botMessage.classList.add('message', 'bot-message');
-                    botMessage.innerHTML = `<span>Error: Failed to retrieve answer</span>`;
-                    botMessageContainer.appendChild(botMessage);
-                    chatMessages.appendChild(botMessageContainer);
-                }
-                messageInput.value = '';
-            }
-        });
+    sendButton.addEventListener('click', async () => {
+      const message = messageInput.value.trim();
+      if (message) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', 'user-message');
+        messageElement.innerHTML = `<span>${message}</span>`;
+        chatMessages.appendChild(messageElement);
 
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendButton.click();
-            }
-        });
-    </script>
+        try {
+          const response = await fetch('http://localhost:3000/ask', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question: message, uid: uid }),
+          });
+          const data = await response.json();
+
+          if (data.imageUrl) {
+            const imageElement = document.createElement('div');
+            imageElement.classList.add('message', 'bot-image');
+            imageElement.innerHTML = `<img src="${data.imageUrl}" alt="Generated Image" style="max-width: 100%;">`;
+            chatMessages.appendChild(imageElement);
+          } else {
+            const botMessage = document.createElement('div');
+            botMessage.classList.add('message', 'bot-message');
+            botMessage.innerHTML = `<span>${data.answer}</span><button class="copy-button" onclick="copyMessage(this)">Copy</button>`;
+            chatMessages.appendChild(botMessage);
+          }
+
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        } catch (error) {
+          console.error('Error:', error);
+          const botMessage = document.createElement('div');
+          botMessage.classList.add('message', 'bot-message');
+          botMessage.innerHTML = `<span>Error: Failed to retrieve answer</span><button class="copy-button" onclick="copyMessage(this)">Copy</button>`;
+          chatMessages.appendChild(botMessage);
+        }
+
+        messageInput.value = '';
+      }
+    });
+
+    messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendButton.click();
+      }
+    });
+
+    function copyMessage(button) {
+      const messageText = button.previousElementSibling.innerText;
+      navigator.clipboard.writeText(messageText).then(() => {
+        alert('Message copied to clipboard');
+      });
+    }
+  </script>
 </body>
 </html>
