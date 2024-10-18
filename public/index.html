@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AYANFE 🌹💜🦋🥀</title>
+  <title>HEY Y'ALL WELCOME TO I BADBOY♥︎CEE😒</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -79,6 +80,14 @@
       text-align: left;
     }
 
+    .bot-image {
+      background-color: #4b006f;
+      color: #fff;
+      text-align: left;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
     .copy-button {
       position: absolute;
       right: -30px;
@@ -143,7 +152,7 @@
 <body>
   <div class="chat-container">
     <div class="chat-header">
-      <h2>AYANFE 🌹💜🦋🥀🖤</h2>
+      <h2>BADBOY♥︎CEE😒</h2>
     </div>
     <div class="chat-messages" id="chat-messages">
       <div class="message bot-message">
@@ -173,16 +182,24 @@
         chatMessages.appendChild(messageElement);
 
         try {
-          const response = await fetch('/ask', {
+          const response = await fetch('http://localhost:3000/ask', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ question: message, uid: uid }),
           });
           const data = await response.json();
-          const botMessage = document.createElement('div');
-          botMessage.classList.add('message', 'bot-message');
-          botMessage.innerHTML = `<span>${data.answer}</span><button class="copy-button" onclick="copyMessage(this)">Copy</button>`;
-          chatMessages.appendChild(botMessage);
+
+          if (data.imageUrl) {
+            const imageElement = document.createElement('div');
+            imageElement.classList.add('message', 'bot-image');
+            imageElement.innerHTML = `<img src="${data.imageUrl}" alt="Generated Image" style="max-width: 100%;">`;
+            chatMessages.appendChild(imageElement);
+          } else {
+            const botMessage = document.createElement('div');
+            botMessage.classList.add('message', 'bot-message');
+            botMessage.innerHTML = `<span>${data.answer}</span><button class="copy-button" onclick="copyMessage(this)">Copy</button>`;
+            chatMessages.appendChild(botMessage);
+          }
 
           chatMessages.scrollTop = chatMessages.scrollHeight;
         } catch (error) {
