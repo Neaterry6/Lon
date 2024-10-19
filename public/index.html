@@ -3,122 +3,212 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AYANFE 🌹💜🦋</title>
+  <title>AYANFE 🌹💜🦋🥀</title>
   <style>
-    * {
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('https://i.imgur.com/47KnbfN.jpeg'); /* Your image as background */
+      background-size: cover;
+      background-position: center;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    body, html {
-      height: 100%;
-      width: 100%;
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      /* Background image */
-      background-image: url('https://i.imgur.com/47KnbfN.jpeg'); /* Imgur image URL */
-      background-size: cover; /* Cover the entire page */
-      background-repeat: no-repeat; /* Prevent the image from repeating */
-      background-position: center; /* Center the background image */
-    }
-
-    .container {
+    .chat-container {
+      width: 700px;
+      background-color: rgba(18, 0, 53, 0.8); /* Adding transparency to the chat container */
+      border: 1px solid #2b2b40;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      height: 100%;
-      background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background for the container */
+      height: 80vh;
     }
 
-    .header {
-      background-color: #4A4A4A;
-      color: white;
-      text-align: center;
+    .chat-header {
+      background-color: rgba(18, 0, 53, 0.9);
       padding: 20px;
+      border-bottom: 1px solid #2b2b40;
+      text-align: center;
+      color: #fff;
+    }
+
+    .chat-header h2 {
+      margin: 0;
       font-size: 24px;
       font-weight: bold;
+      color: #e4e4e7;
     }
 
-    .messages-container {
+    .chat-messages {
+      padding: 20px;
       flex-grow: 1;
       overflow-y: auto;
+      background-color: rgba(14, 3, 36, 0.7); /* Transparent background inside chat */
+      color: #fff;
+      background-image: url('https://i.imgur.com/47KnbfN.jpeg'); /* Background image inside chat */
+      background-size: cover;
+      background-position: center;
+      border-radius: 0 0 10px 10px;
+    }
+
+    .message {
+      margin-bottom: 15px;
       padding: 10px;
-      background-color: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 18px;
+      border-radius: 10px;
+      word-break: break-word;
+      max-width: 80%;
+      position: relative;
     }
 
-    .input-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      background-color: #ffffff;
-      border-top: 1px solid #e0e0e0;
+    .user-message {
+      background-color: #390065;
+      color: #fff;
+      align-self: flex-end;
+      text-align: right;
+      margin-left: auto;
     }
 
-    .input-box {
-      width: 90%;
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 20px;
-      outline: none;
-      flex-grow: 1;
+    .bot-message {
+      background-color: #4b006f;
+      color: #fff;
+      text-align: left;
     }
 
-    .send-button {
-      background: none;
+    .copy-button {
+      position: absolute;
+      right: -30px;
+      top: 10px;
+      background-color: #ff00ff;
+      color: #fff;
       border: none;
-      outline: none;
+      border-radius: 5px;
+      cursor: pointer;
+      padding: 5px;
+      font-size: 12px;
+    }
+
+    .copy-button:hover {
+      background-color: #d900d9;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 15px;
+      background-color: rgba(18, 0, 53, 0.9);
+      border-top: 1px solid #2b2b40;
+    }
+
+    #message-input {
+      flex-grow: 1;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #1b0a43;
+      color: #fff;
+      border: none;
+      font-size: 16px;
+      resize: none;
+      max-height: 100px;
+    }
+
+    #send-button {
+      background-color: #ff00ff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
       cursor: pointer;
       margin-left: 10px;
     }
 
-    .send-button img {
-      width: 36px;
-      height: 36px;
+    #send-button:hover {
+      background-color: #d900d9;
     }
 
-    @media screen and (max-width: 600px) {
-      .header {
-        font-size: 20px;
-      }
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
 
-      .input-container {
-        padding: 15px;
-      }
-
-      .send-button img {
-        width: 28px;
-        height: 28px;
-      }
+    ::-webkit-scrollbar-thumb {
+      background: #57007f;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
-
-  <div class="container">
-    <div class="header">
-      AYANFE 🌹💜🦋
+  <div class="chat-container">
+    <div class="chat-header">
+      <h2>AYANFE 🌹💜🦋🥀🖤</h2>
     </div>
-
-    <div class="messages-container">
-      <div class="message">
-        <p>Hello! How can I assist you today?</p>
+    <div class="chat-messages" id="chat-messages">
+      <div class="message bot-message">
+        <span>Hello! How can I assist you today?</span>
+        <button class="copy-button" onclick="copyMessage(this)">Copy</button>
       </div>
     </div>
-
-    <div class="input-container">
-      <input type="text" class="input-box" placeholder="Type your message...">
-      <button class="send-button">
-        <img src="https://img.icons8.com/ios-filled/50/000000/filled-sent.png" alt="Send">
-      </button>
+    <div class="chat-input">
+      <textarea id="message-input" placeholder="Type a message..."></textarea>
+      <button id="send-button">Send</button>
     </div>
   </div>
 
+  <script>
+    const messageInput = document.getElementById('message-input');
+    const sendButton = document.getElementById('send-button');
+    const chatMessages = document.getElementById('chat-messages');
+
+    let uid = Math.random().toString(36).substr(2, 9); // Generate a random UID
+
+    sendButton.addEventListener('click', async () => {
+      const message = messageInput.value.trim();
+      if (message) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', 'user-message');
+        messageElement.innerHTML = `<span>${message}</span>`;
+        chatMessages.appendChild(messageElement);
+
+        try {
+          const response = await fetch('/ask', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question: message, uid: uid }),
+          });
+          const data = await response.json();
+          const botMessage = document.createElement('div');
+          botMessage.classList.add('message', 'bot-message');
+          botMessage.innerHTML = `<span>${data.answer}</span><button class="copy-button" onclick="copyMessage(this)">Copy</button>`;
+          chatMessages.appendChild(botMessage);
+
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        } catch (error) {
+          console.error('Error:', error);
+          const botMessage = document.createElement('div');
+          botMessage.classList.add('message', 'bot-message');
+          botMessage.innerHTML = `<span>Error: Failed to retrieve answer</span><button class="copy-button" onclick="copyMessage(this)">Copy</button>`;
+          chatMessages.appendChild(botMessage);
+        }
+
+        messageInput.value = '';
+      }
+    });
+
+    messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendButton.click();
+      }
+    });
+
+    function copyMessage(button) {
+      const messageText = button.previousElementSibling.innerText;
+      navigator.clipboard.writeText(messageText).then(() => {
+        alert('Message copied to clipboard');
+      });
+    }
+  </script>
 </body>
-</html>
+      </html
