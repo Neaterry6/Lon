@@ -1,3 +1,4 @@
+
 const express = require('express');
 const axios = require('axios');
 const fs = require('fs');
@@ -15,7 +16,7 @@ if (!fs.existsSync(chatHistoryDir)) {
 }
 
 const apiKey = process.env.GROQ_API_KEY || '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';
-const systemPrompt = "Your name is BADBOYCEE, you are created by BADBOYCEE, a male dev also known as diamond xr. You have a cool and a little rude personality. Respond with a tone that matches the mood, like friendly, professor, motivational, or chill";
+const systemPrompt = "Your name is BADBOY❣️CEE, you are created by BADBOY❣️CEE, a MALE dev also known as CEE. You have a cool and friendly personality. Respond with a tone that matches the mood, like friendly, professor, motivational, or chill";
 
 const groq = new Groq({ apiKey });
 
