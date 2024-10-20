@@ -1,14 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HEY Y'ALL WELCOME TO I BADBOY♥︎CEE😒</title>
+  <title>BADBOI CEE🥀🫂❣️</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-image: url('https://i.imgur.com/47KnbfN.jpeg'); /* Your image as background */
+      background-image: url('https://scontent.xx.fbcdn.net/v/t1.15752-9/462540752_1064238094884854_3067520428057796296_n.jpg?stp=dst-jpg_s480x480&_nc_cat=100&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeECq3kS3pbAe9fN2TFRvHyfJi08x8gQQTkmLTzHyBBBOTWoMlFuj1wHhXF14Xw93EBz9S9w3OXXEWZ4yRCIjpQj&_nc_ohc=Lu2ov7F5stIQ7kNvgEyuzF_&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent.xx&_nc_gid=AFiJ7bu9WAE8VLxatsAqHoY&oh=03_Q7cD1QFlrB6zoEYVTEWftx2mt7vxrU4kF1Y_pAUeVcVvVeaWpw&oe=673C378C'); /* Your image as background */
       background-size: cover;
       background-position: center;
       margin: 0;
@@ -51,7 +50,7 @@
       overflow-y: auto;
       background-color: rgba(14, 3, 36, 0.7); /* Transparent background inside chat */
       color: #fff;
-      background-image: url('https://i.imgur.com/47KnbfN.jpeg'); /* Background image inside chat */
+      background-image: url('https://scontent.xx.fbcdn.net/v/t1.15752-9/462540752_1064238094884854_3067520428057796296_n.jpg?stp=dst-jpg_s480x480&_nc_cat=100&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeECq3kS3pbAe9fN2TFRvHyfJi08x8gQQTkmLTzHyBBBOTWoMlFuj1wHhXF14Xw93EBz9S9w3OXXEWZ4yRCIjpQj&_nc_ohc=Lu2ov7F5stIQ7kNvgEyuzF_&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent.xx&_nc_gid=AFiJ7bu9WAE8VLxatsAqHoY&oh=03_Q7cD1QFlrB6zoEYVTEWftx2mt7vxrU4kF1Y_pAUeVcVvVeaWpw&oe=673C378C'); /* Background image inside chat */
       background-size: cover;
       background-position: center;
       border-radius: 0 0 10px 10px;
@@ -78,14 +77,6 @@
       background-color: #4b006f;
       color: #fff;
       text-align: left;
-    }
-
-    .bot-image {
-      background-color: #4b006f;
-      color: #fff;
-      text-align: left;
-      padding: 10px;
-      border-radius: 10px;
     }
 
     .copy-button {
@@ -152,7 +143,7 @@
 <body>
   <div class="chat-container">
     <div class="chat-header">
-      <h2>BADBOY♥︎CEE😒</h2>
+      <h2>BADBOI CEE❣️🖤</h2>
     </div>
     <div class="chat-messages" id="chat-messages">
       <div class="message bot-message">
@@ -182,24 +173,16 @@
         chatMessages.appendChild(messageElement);
 
         try {
-          const response = await fetch('http://localhost:3000/ask', {
+          const response = await fetch('/ask', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ question: message, uid: uid }),
           });
           const data = await response.json();
-
-          if (data.imageUrl) {
-            const imageElement = document.createElement('div');
-            imageElement.classList.add('message', 'bot-image');
-            imageElement.innerHTML = `<img src="${data.imageUrl}" alt="Generated Image" style="max-width: 100%;">`;
-            chatMessages.appendChild(imageElement);
-          } else {
-            const botMessage = document.createElement('div');
-            botMessage.classList.add('message', 'bot-message');
-            botMessage.innerHTML = `<span>${data.answer}</span><button class="copy-button" onclick="copyMessage(this)">Copy</button>`;
-            chatMessages.appendChild(botMessage);
-          }
+          const botMessage = document.createElement('div');
+          botMessage.classList.add('message', 'bot-message');
+          botMessage.innerHTML = `<span>${data.answer}</span><button class="copy-button" onclick="copyMessage(this)">Copy</button>`;
+          chatMessages.appendChild(botMessage);
 
           chatMessages.scrollTop = chatMessages.scrollHeight;
         } catch (error) {
