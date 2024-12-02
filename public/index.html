@@ -3,212 +3,232 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AYANFE 🌹💜🦋🥀</title>
+  <title>AYANFE 🥹🫶🫥</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-image: url('https://i.imgur.com/47KnbfN.jpeg'); /* Your image as background */
-      background-size: cover;
-      background-position: center;
       margin: 0;
-      padding: 0;
-      height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #0d0d0d;
+      color: white;
       display: flex;
       justify-content: center;
       align-items: center;
+      height: 100vh;
     }
-
-    .chat-container {
-      width: 700px;
-      background-color: rgba(18, 0, 53, 0.8); /* Adding transparency to the chat container */
-      border: 1px solid #2b2b40;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    .container {
+      width: 400px;
+      height: 600px;
+      background: #1a1a1a;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      display: none;
+      flex-direction: column;
+    }
+    .container.active {
+      display: flex;
+    }
+    #login-container {
       display: flex;
       flex-direction: column;
-      height: 80vh;
-    }
-
-    .chat-header {
-      background-color: rgba(18, 0, 53, 0.9);
-      padding: 20px;
-      border-bottom: 1px solid #2b2b40;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      color: #fff;
     }
-
-    .chat-header h2 {
-      margin: 0;
-      font-size: 24px;
-      font-weight: bold;
-      color: #e4e4e7;
-    }
-
-    .chat-messages {
-      padding: 20px;
-      flex-grow: 1;
-      overflow-y: auto;
-      background-color: rgba(14, 3, 36, 0.7); /* Transparent background inside chat */
-      color: #fff;
-      background-image: url('https://i.imgur.com/47KnbfN.jpeg'); /* Background image inside chat */
-      background-size: cover;
-      background-position: center;
-      border-radius: 0 0 10px 10px;
-    }
-
-    .message {
-      margin-bottom: 15px;
+    #header {
+      text-align: center;
       padding: 10px;
-      border-radius: 10px;
-      word-break: break-word;
+      background: linear-gradient(45deg, #3333ff, #66ffcc);
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 10px #FFFF66, 0 0 15px #FF009F;
+    }
+    #subheader {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #ccc;
+      margin: 5px 0;
+    }
+    #button-container {
+      display: flex;
+      justify-content: space-evenly;
+      padding: 10px;
+      background: #141414;
+    }
+    .option-button {
+      padding: 8px 12px;
+      background: linear-gradient(45deg, #3333ff, #66ffcc);
+      border: none;
+      border-radius: 20px;
+      color: white;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin: 3px;
+      box-shadow: 0 0 10px #FFFF66, 0 0 5px #FF009F;
+    }
+    .option-button:hover {
+      background: linear-gradient(45deg, #66ffcc, #3333ff);
+    }
+    #chat-box {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: #1a1a1a;
+    }
+    .message {
+      margin: 10px 0;
+      display: inline-block;
       max-width: 80%;
-      position: relative;
+      padding: 10px;
+      border-radius: 12px;
+      line-height: 1.4;
     }
-
     .user-message {
-      background-color: #390065;
-      color: #fff;
       align-self: flex-end;
+      background: #00cc99;
+      color: black;
       text-align: right;
-      margin-left: auto;
     }
-
-    .bot-message {
-      background-color: #4b006f;
-      color: #fff;
-      text-align: left;
+    #input-container {
+      display: flex;
+      padding: 10px;
+      background: #0d0d0d;
+      border: solid 10px #FFFF66;
+      border-radius: 20px;
+      box-shadow: 0 0 10px #FFFF66, 0 0 15px #ff3300, 0 0 24px #FF009F;
     }
-
-    .copy-button {
-      position: absolute;
-      right: -30px;
-      top: 10px;
-      background-color: #ff00ff;
-      color: #fff;
+    #user-input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 15px;
+      background: #333;
+      color: white;
+      outline: none;
+      box-shadow: 0 0 7px #FFFF66, 0 0 9px #FF009F;
+    }
+    #send-button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      background: linear-gradient(45deg, #66ffcc, #3366ff);
+      border: none;
+      border-radius: 15px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      box-shadow: 0 0 7px #FFFF66, 0 0 9px #FF009F;
+    }
+    #send-button:hover {
+      background: linear-gradient(45deg, #3366ff, #66ffcc);
+    }
+    #links {
+      margin-top: 10px;
+      text-align: center;
+    }
+    #links a {
+      color: #00ccff;
+      text-decoration: none;
+      margin: 0 5px;
+    }
+    #links a:hover {
+      text-decoration: underline;
+    }
+    #login-input {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    #login-button {
+      padding: 10px;
+      background: linear-gradient(45deg, #66ffcc, #3333ff);
+      color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      padding: 5px;
-      font-size: 12px;
-    }
-
-    .copy-button:hover {
-      background-color: #d900d9;
-    }
-
-    .chat-input {
-      display: flex;
-      padding: 15px;
-      background-color: rgba(18, 0, 53, 0.9);
-      border-top: 1px solid #2b2b40;
-    }
-
-    #message-input {
-      flex-grow: 1;
-      padding: 10px;
-      border-radius: 10px;
-      background-color: #1b0a43;
-      color: #fff;
-      border: none;
-      font-size: 16px;
-      resize: none;
-      max-height: 100px;
-    }
-
-    #send-button {
-      background-color: #ff00ff;
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-left: 10px;
-    }
-
-    #send-button:hover {
-      background-color: #d900d9;
-    }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #57007f;
-      border-radius: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="chat-container">
-    <div class="chat-header">
-      <h2>AYANFE 🌹💜🦋🥀🖤</h2>
+  <!-- Login Page -->
+  <div class="container" id="login-container">
+    <h1>Welcome to AYANFE 🥹🫶🫥</h1>
+    <p>Please enter your name to proceed:</p>
+    <input type="text" id="login-input" placeholder="Enter your name" />
+    <button id="login-button">Login</button>
+    <div id="links">
+      <a href="https://www.facebook.com/profile.php?id=100090443419982" target="_blank">Facebook</a>
+      <a href="https://www.youtube.com/@AkewusholaAbdulbakri" target="_blank">YouTube</a>
+      <a href="https://wa.me/2348039896597" target="_blank">WhatsApp</a>
     </div>
-    <div class="chat-messages" id="chat-messages">
-      <div class="message bot-message">
-        <span>Hello! How can I assist you today?</span>
-        <button class="copy-button" onclick="copyMessage(this)">Copy</button>
-      </div>
+  </div>
+
+  <!-- Chat Page -->
+  <div class="container" id="chat-container">
+    <div id="header">AYANFE🥹🫶🫥</div>
+    <div id="subheader">Your Personalized Chat Experience</div>
+    <div id="button-container">
+      <button class="option-button" onclick="quickMessage('Tell me a joke')">Tell me a joke</button>
+      <button class="option-button" onclick="quickMessage('What can you do?')">What can you do?</button>
+      <button class="option-button" onclick="quickMessage('Write a story')">Write a story</button>
     </div>
-    <div class="chat-input">
-      <textarea id="message-input" placeholder="Type a message..."></textarea>
+    <div id="chat-box"></div>
+    <div id="input-container">
+      <input type="text" id="user-input" placeholder="Type a message..." />
       <button id="send-button">Send</button>
     </div>
   </div>
 
   <script>
-    const messageInput = document.getElementById('message-input');
+    const loginContainer = document.getElementById('login-container');
+    const chatContainer = document.getElementById('chat-container');
+    const loginButton = document.getElementById('login-button');
+    const loginInput = document.getElementById('login-input');
     const sendButton = document.getElementById('send-button');
-    const chatMessages = document.getElementById('chat-messages');
+    const userInput = document.getElementById('user-input');
+    const chatBox = document.getElementById('chat-box');
 
-    let uid = Math.random().toString(36).substr(2, 9); // Generate a random UID
-
-    sendButton.addEventListener('click', async () => {
-      const message = messageInput.value.trim();
-      if (message) {
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('message', 'user-message');
-        messageElement.innerHTML = `<span>${message}</span>`;
-        chatMessages.appendChild(messageElement);
-
-        try {
-          const response = await fetch('/ask', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ question: message, uid: uid }),
-          });
-          const data = await response.json();
-          const botMessage = document.createElement('div');
-          botMessage.classList.add('message', 'bot-message');
-          botMessage.innerHTML = `<span>${data.answer}</span><button class="copy-button" onclick="copyMessage(this)">Copy</button>`;
-          chatMessages.appendChild(botMessage);
-
-          chatMessages.scrollTop = chatMessages.scrollHeight;
-        } catch (error) {
-          console.error('Error:', error);
-          const botMessage = document.createElement('div');
-          botMessage.classList.add('message', 'bot-message');
-          botMessage.innerHTML = `<span>Error: Failed to retrieve answer</span><button class="copy-button" onclick="copyMessage(this)">Copy</button>`;
-          chatMessages.appendChild(botMessage);
-        }
-
-        messageInput.value = '';
+    // Show chat container after login
+    loginButton.addEventListener('click', () => {
+      const username = loginInput.value.trim();
+      if (username) {
+        loginContainer.classList.remove('active');
+        chatContainer.classList.add('active');
       }
     });
 
-    messageInput.addEventListener('keypress', (e) => {
+    // Add messages to the chat box
+    const addMessage = (content, type) => {
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('message', type);
+      messageDiv.textContent = content;
+      chatBox.appendChild(messageDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    };
+
+    // Send user message
+    sendButton.addEventListener('click', () => {
+      const message = userInput.value.trim();
+      if (message) {
+        addMessage(message, 'user-message');
+        userInput.value = '';
+      }
+    });
+
+    // Handle Enter key for sending messages
+    userInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
         sendButton.click();
       }
     });
 
-    function copyMessage(button) {
-      const messageText = button.previousElementSibling.innerText;
-      navigator.clipboard.writeText(messageText).then(() => {
-        alert('Message copied to clipboard');
-      });
-    }
+    // Predefined responses
+    const quickMessage = (message) => {
+      addMessage(message, 'user-message');
+    };
   </script>
 </body>
-      </html
+      </html>
