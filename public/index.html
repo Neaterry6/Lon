@@ -3,237 +3,224 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AYANFE ✍️❣️</title>
+  <title>AYANFE ✍️🎗️❣🌺</title>
   <style>
     body {
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
-      background: #0d0d0d;
-      color: white;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       height: 100vh;
+      background: #000; /* Black background color */
+      color: #fff;
     }
+
     .container {
-      width: 400px;
-      height: 600px;
-      background: #1a1a1a;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      overflow: hidden;
+      width: 90%;
+      max-width: 600px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .hidden {
       display: none;
-      flex-direction: column;
     }
-    .container.active {
-      display: flex;
-    }
-    #login-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-    #header {
-      text-align: center;
+
+    .input-field, .btn {
+      width: 100%;
+      margin: 10px 0;
       padding: 10px;
-      background: linear-gradient(45deg, #3333ff, #66ffcc);
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: white;
-      text-shadow: 0 0 10px #FFFF66, 0 0 15px #FF009F;
-    }
-    #subheader {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #ccc;
-      margin: 5px 0;
-    }
-    #button-container {
-      display: flex;
-      justify-content: space-evenly;
-      padding: 10px;
-      background: #141414;
-    }
-    .option-button {
-      padding: 8px 12px;
-      background: linear-gradient(45deg, #3333ff, #66ffcc);
+      font-size: 16px;
+      border-radius: 5px;
       border: none;
-      border-radius: 20px;
-      color: white;
-      font-size: 0.85rem;
+    }
+
+    .input-field {
+      background: #333;
+      color: #fff;
+    }
+
+    .btn {
+      background: #00ff00;
+      color: #000;
       cursor: pointer;
-      transition: background 0.3s ease;
-      margin: 3px;
-      box-shadow: 0 0 10px #FFFF66, 0 0 5px #FF009F;
     }
-    .option-button:hover {
-      background: linear-gradient(45deg, #66ffcc, #3333ff);
+
+    .btn:hover {
+      background: #00cc00;
     }
-    #chat-box {
-      flex: 1;
-      padding: 15px;
+
+    .chat-messages {
+      max-height: 300px;
       overflow-y: auto;
-      background: #1a1a1a;
+      padding: 10px;
+      margin-bottom: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 5px;
+      border: 1px solid #555;
     }
+
     .message {
       margin: 10px 0;
-      display: inline-block;
-      max-width: 80%;
       padding: 10px;
-      border-radius: 12px;
-      line-height: 1.4;
+      border-radius: 5px;
     }
+
     .user-message {
-      align-self: flex-end;
-      background: #00cc99;
-      color: black;
+      background: #1a73e8;
+      color: #000;
       text-align: right;
     }
-    #input-container {
-      display: flex;
-      padding: 10px;
-      background: #0d0d0d;
-      border: solid 10px #FFFF66;
-      border-radius: 20px;
-      box-shadow: 0 0 10px #FFFF66, 0 0 15px #ff3300, 0 0 24px #FF009F;
+
+    .bot-message {
+      background: #444;
+      color: #fff;
+      text-align: left;
     }
-    #user-input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 15px;
-      background: #333;
-      color: white;
-      outline: none;
-      box-shadow: 0 0 7px #FFFF66, 0 0 9px #FF009F;
-    }
-    #send-button {
-      padding: 10px;
+
+    .copy-btn {
       margin-left: 10px;
-      background: linear-gradient(45deg, #66ffcc, #3366ff);
+      padding: 5px;
+      background: #00ff00;
+      color: #000;
       border: none;
-      border-radius: 50%;
-      color: white;
-      font-size: 1rem;
+      border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s ease;
-      box-shadow: 0 0 7px #FFFF66, 0 0 9px #FF009F;
+      font-size: 12px;
+    }
+
+    .copy-btn:hover {
+      background: #00cc00;
+    }
+
+    .chat-input {
       display: flex;
-      align-items: center;
-      justify-content: center;
+      gap: 10px;
     }
-    #send-button:hover {
-      background: linear-gradient(45deg, #3366ff, #66ffcc);
-    }
-    #links {
-      margin-top: 10px;
-      text-align: center;
-    }
-    #links a {
-      color: #00ccff;
-      text-decoration: none;
-      margin: 0 5px;
-    }
-    #links a:hover {
-      text-decoration: underline;
-    }
-    #login-input {
+
+    .chat-input input {
+      flex-grow: 1;
       padding: 10px;
-      border: none;
       border-radius: 5px;
-      margin-bottom: 10px;
+      border: none;
+      background: #333;
+      color: #fff;
     }
-    #login-button {
-      padding: 10px;
-      background: linear-gradient(45deg, #66ffcc, #3333ff);
-      color: white;
+
+    .chat-input button {
+      padding: 10px 20px;
+      background: transparent;
       border: none;
-      border-radius: 5px;
       cursor: pointer;
+    }
+
+    .chat-input button svg {
+      width: 24px;
+      height: 24px;
+      fill: #00ff00;
+    }
+
+    .links a {
+      color: #00ff00;
+      text-decoration: none;
+      display: block;
+      margin-top: 10px;
+    }
+
+    .links a:hover {
+      color: #00cc00;
     }
   </style>
 </head>
 <body>
-  <!-- Login Page -->
   <div class="container" id="login-container">
-    <h1>Welcome to AYANFE✍️❣️</h1>
-    <p>Please enter your name to proceed:</p>
-    <input type="text" id="login-input" placeholder="Enter your name" />
-    <button id="login-button">Login</button>
-    <div id="links">
-      <a href="https://www.facebook.com/profile.php?id=100090443419982" target="_blank">Facebook</a>
-      <a href="https://www.youtube.com/@AkewusholaAbdulbakri" target="_blank">YouTube</a>
-      <a href="https://wa.me/2348039896597" target="_blank">WhatsApp</a>
-    </div>
+    <h2>Welcome to AYANFE ✍️🎗️❣️</h2>
+    <p>Please log in to continue.</p>
+    <input type="text" id="username" class="input-field" placeholder="Enter your username" />
+    <button class="btn" id="login-btn">Login</button>
   </div>
 
-  <!-- Chat Page -->
-  <div class="container" id="chat-container">
-    <div id="header">AYANFE✍️❣️</div>
-    <div id="subheader">Your Personalized Chat Experience</div>
-    <div id="button-container">
-      <button class="option-button" onclick="quickMessage('Tell me a joke')">Tell me a joke</button>
-      <button class="option-button" onclick="quickMessage('What can you do?')">What can you do?</button>
-      <button class="option-button" onclick="quickMessage('Write a story')">Write a story</button>
+  <div class="container hidden" id="chat-container">
+    <h2>AYANFE ✍️🎗️🌺❣</h2>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-input">
+      <input type="text" id="chat-input" placeholder="Type your message..." />
+      <button id="send-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00ff00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 2L10 20L2 10"></path>
+        </svg>
+      </button>
     </div>
-    <div id="chat-box"></div>
-    <div id="input-container">
-      <input type="text" id="user-input" placeholder="Type a message..." />
-      <button id="send-button">&#x2709;</button>
+    <div class="links">
+      <a href="https://www.facebook.com/profile.php?id=100090443419982" target="_blank">Visit my Facebook Profile</a>
+      <a href="https://wa.me/2348039896597" target="_blank">Contact me on WhatsApp</a>
+      <a href="https://whatsapp.com/channel/0029VaszFrk3LdQLKvzM8B1Y" target="_blank">Follow the VANEA💜🫂&SUPERMAN🌹🦋 channel</a>
     </div>
   </div>
 
   <script>
     const loginContainer = document.getElementById('login-container');
     const chatContainer = document.getElementById('chat-container');
-    const loginButton = document.getElementById('login-button');
-    const loginInput = document.getElementById('login-input');
-    const sendButton = document.getElementById('send-button');
-    const userInput = document.getElementById('user-input');
-    const chatBox = document.getElementById('chat-box');
+    const loginBtn = document.getElementById('login-btn');
+    const usernameInput = document.getElementById('username');
+    const chatMessages = document.getElementById('chat-messages');
+    const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
 
-    // Show chat container after login
-    loginButton.addEventListener('click', () => {
-      const username = loginInput.value.trim();
+    loginBtn.addEventListener('click', () => {
+      const username = usernameInput.value.trim();
       if (username) {
-        loginContainer.style.display = "none"; // Hide login page
-        chatContainer.style.display = "flex"; // Show chat page
-      } else {
-        alert("Please enter your name to proceed.");
+        localStorage.setItem('username', username);
+        loginContainer.classList.add('hidden');
+        chatContainer.classList.remove('hidden');
       }
     });
 
-    // Add messages to the chat box
-    const addMessage = (content, type) => {
-      const messageDiv = document.createElement('div');
-      messageDiv.classList.add('message', type);
-      messageDiv.textContent = content;
-      chatBox.appendChild(messageDiv);
-      chatBox.scrollTop = chatBox.scrollHeight;
+    const sendMessage = () => {
+      const message = chatInput.value.trim();
+      if (!message) return;
+
+      const userMessage = document.createElement('div');
+      userMessage.classList.add('message', 'user-message');
+      userMessage.textContent = message;
+      chatMessages.appendChild(userMessage);
+
+      chatInput.value = '';
+
+      fetch('/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: message, uid: localStorage.getItem('username') }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          const botMessage = document.createElement('div');
+          botMessage.classList.add('message', 'bot-message');
+          botMessage.textContent = data.answer;
+
+          const copyBtn = document.createElement('button');
+          copyBtn.textContent = 'Copy';
+          copyBtn.classList.add('copy-btn');
+          copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(data.answer).then(() => {
+              alert('Copied to clipboard!');
+            });
+          });
+
+          botMessage.appendChild(copyBtn);
+          chatMessages.appendChild(botMessage);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
     };
 
-    // Send user message
-    sendButton.addEventListener('click', () => {
-      const message = userInput.value.trim();
-      if (message) {
-        addMessage(message, 'user-message');
-        userInput.value = '';
-      }
+    sendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendMessage();
     });
-
-    // Handle Enter key for sending messages
-    userInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        sendButton.click();
-      }
-    });
-
-    // Predefined responses
-    const quickMessage = (message) => {
-      addMessage(message, 'user-message');
-    };
   </script>
 </body>
-  </html>
+</html>
