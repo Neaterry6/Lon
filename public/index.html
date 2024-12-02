@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AYANFE ✍️🎗️❣️</title>
+  <title>AYANFE ✍️🎗️💙❣️</title>
   <style>
     * {
       margin: 0;
@@ -17,7 +17,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(to bottom, #1a73e8, #ff4081);
+      background-color: #1a1a1a; /* Dark background */
       color: #fff;
     }
 
@@ -32,14 +32,12 @@
     .login-container,
     .chat-container {
       display: none;
-      width: 90%;
-      max-width: 500px;
-      height: 90%;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.9);
       text-align: center;
+      color: #fff;
       overflow: hidden;
     }
 
@@ -47,14 +45,6 @@
     .chat-container.active {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    h2 {
-      font-size: 28px;
-      margin-bottom: 20px;
-      color: #00ff00;
     }
 
     .input-field {
@@ -64,45 +54,44 @@
       border: none;
       border-radius: 5px;
       font-size: 16px;
-      background: #fff;
-      color: #333;
+      background: #333;
+      color: #fff;
     }
 
     .btn {
       padding: 10px 20px;
-      background: #ff4081;
-      color: #fff;
+      background: #00ff00;
+      color: #000;
       border: none;
       border-radius: 5px;
       cursor: pointer;
       font-size: 16px;
-      transition: background 0.3s;
     }
 
     .btn:hover {
-      background: #e91e63;
+      background: #00cc00;
     }
 
     .chat-messages {
       flex-grow: 1;
       overflow-y: auto;
-      border: 1px solid #ddd;
+      border: 1px solid #555;
       padding: 10px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.8);
-      color: #000;
-      margin-bottom: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 5px;
+      margin-bottom: 20px;
     }
 
     .message {
       margin: 10px 0;
       padding: 10px;
-      border-radius: 10px;
+      border-radius: 5px;
+      position: relative;
     }
 
     .user-message {
       background: #1a73e8;
-      color: #fff;
+      color: #fff; 
       text-align: right;
     }
 
@@ -110,6 +99,24 @@
       background: #444;
       color: #fff;
       text-align: left;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      padding: 5px 10px;
+      background: #00ff00;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .copy-btn:hover {
+      background: #00cc00;
     }
 
     .chat-input {
@@ -123,18 +130,17 @@
       padding: 10px;
       border-radius: 5px;
       border: none;
-      background: #fff;
-      color: #333;
+      background: #333;
+      color: #fff;
     }
 
     .chat-input button {
       padding: 10px 20px;
-      background: #1a73e8;
+      background: #007bff; /* Blue send button */
       border: none;
       border-radius: 5px;
       cursor: pointer;
       color: #fff;
-      transition: background 0.3s;
     }
 
     .chat-input button:hover {
@@ -149,20 +155,21 @@
 
     .suggestion {
       padding: 5px 10px;
-      background: #ff4081;
+      background: #555;
       color: #fff;
       border-radius: 5px;
       cursor: pointer;
       font-size: 14px;
-      transition: background 0.3s;
     }
 
     .suggestion:hover {
-      background: #e91e63;
+      background: #00ff00;
+      color: #000;
     }
   </style>
 </head>
 <body>
+  <!-- Login Screen -->
   <div class="container">
     <div class="login-container active" id="login-container">
       <h2>Welcome to AYANFE ✍️🎗️❣️</h2>
@@ -171,6 +178,7 @@
       <button class="btn" id="login-btn">Login</button>
     </div>
 
+    <!-- Chat Screen -->
     <div class="chat-container" id="chat-container">
       <h2>AYANFE ✍️🎗️❣️</h2>
       <div class="chat-messages" id="chat-messages"></div>
@@ -180,10 +188,10 @@
       </div>
 
       <div class="suggestion-box" id="suggestion-box">
-        <span class="suggestion">Hello!</span>
+        <span class="suggestion">Hi!</span>
         <span class="suggestion">How are you?</span>
-        <span class="suggestion">Tell me something cool!</span>
-        <span class="suggestion">What's the time?</span>
+        <span class="suggestion">Tell me a joke</span>
+        <span class="suggestion">What's the weather?</span>
       </div>
     </div>
   </div>
@@ -198,9 +206,12 @@
     const sendBtn = document.getElementById('send-btn');
     const suggestionBox = document.getElementById('suggestion-box');
 
+    // Show the login screen initially
+    loginContainer.classList.add('active');
+
     loginBtn.addEventListener('click', () => {
-      const username = usernameInput.value.trim();
-      if (username) {
+      const usernameValue = usernameInput.value.trim();
+      if (usernameValue) {
         loginContainer.classList.remove('active');
         chatContainer.classList.add('active');
       }
@@ -214,20 +225,34 @@
       chatMessages.scrollTop = chatMessages.scrollHeight;
     };
 
-    sendBtn.addEventListener('click', () => {
+    const sendMessage = () => {
       const message = chatInput.value.trim();
       if (!message) return;
 
       addMessage(message, true);
       chatInput.value = '';
-      setTimeout(() => addMessage("This is a bot reply.", false), 1000);
+
+      fetch('/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: message }),
+      })
+        .then(response => response.json())
+        .then(data => addMessage(data.answer, false))
+        .catch(error => console.error('Error:', error));
+    };
+
+    sendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
     });
 
     suggestionBox.addEventListener('click', (e) => {
       if (e.target.classList.contains('suggestion')) {
         chatInput.value = e.target.textContent;
+        sendMessage();
       }
     });
   </script>
 </body>
-  </html>
+</html>
