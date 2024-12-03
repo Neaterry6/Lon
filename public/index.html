@@ -101,6 +101,7 @@
       margin: 10px 0;
       padding: 10px;
       border-radius: 5px;
+      position: relative;
     }
 
     .user-message {
@@ -113,6 +114,23 @@
       background: #444;
       color: #fff;
       text-align: left;
+    }
+
+    .copy-btn {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      background: #00ff00;
+      border: none;
+      border-radius: 5px;
+      padding: 5px;
+      font-size: 12px;
+      color: #000;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      background: #00cc00;
     }
 
     .chat-input {
@@ -230,9 +248,13 @@
     const sendBtn = document.getElementById('send-btn');
     const suggestionBox = document.getElementById('suggestion-box');
 
+    // Show the login screen initially
+    loginContainer.classList.add('active');
+    chatContainer.classList.remove('active');
+
     loginBtn.addEventListener('click', () => {
-      const username = usernameInput.value.trim();
-      if (username) {
+      const usernameValue = usernameInput.value.trim();
+      if (usernameValue) {
         loginContainer.classList.remove('active');
         chatContainer.classList.add('active');
       }
@@ -242,6 +264,18 @@
       const messageDiv = document.createElement('div');
       messageDiv.classList.add('message', isUser ? 'user-message' : 'bot-message');
       messageDiv.textContent = message;
+
+      if (!isUser) {
+        const copyBtn = document.createElement('button');
+        copyBtn.classList.add('copy-btn');
+        copyBtn.textContent = 'Copy';
+        copyBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(message);
+          alert('Copied to clipboard!');
+        });
+        messageDiv.appendChild(copyBtn);
+      }
+
       chatMessages.appendChild(messageDiv);
       chatMessages.scrollTop = chatMessages.scrollHeight;
     };
@@ -258,9 +292,9 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: message }),
       })
-        .then((response) => response.json())
-        .then((data) => addMessage(data.answer, false))
-        .catch((error) => console.error('Error:', error));
+        .then(response => response.json())
+        .then(data => addMessage(data.answer, false))
+        .catch(error => console.error('Error:', error));
     };
 
     sendBtn.addEventListener('click', sendMessage);
@@ -275,6 +309,7 @@
       }
     });
 
+    // Balloon animation (One balloon every 60 seconds)
     const createBalloon = () => {
       const balloon = document.createElement('div');
       balloon.className = 'balloon';
@@ -285,13 +320,13 @@
       balloon.style.left = `${Math.random() * 100}%`;
       balloon.style.animationDuration = `${Math.random() * 5 + 3}s`;
       document.body.appendChild(balloon);
-      balloon.addEventListener('animationend', () => balloon.remove());
+
+      balloon.addEventListener('animationend', () => {
+        balloon.remove();
+      });
     };
 
-    // Add 5 balloons every 3 seconds
-    setInterval(() => {
-      for (let i = 0; i < 5; i++) createBalloon();
-    }, 3000);
+    setInterval(createBalloon, 60000); // One balloon every 60 seconds
   </script>
 </body>
-</html
+</html>
