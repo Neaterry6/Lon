@@ -19,6 +19,7 @@
       align-items: center;
       background-color: #1a1a1a; /* Dark background */
       color: #fff;
+      overflow: hidden;
     }
 
     .container {
@@ -27,6 +28,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
     }
 
     .login-container,
@@ -45,6 +47,7 @@
     .chat-container.active {
       display: flex;
       flex-direction: column;
+      z-index: 2;
     }
 
     .input-field {
@@ -72,110 +75,116 @@
       background: #00cc00;
     }
 
-    .chat-messages {
-      flex-grow: 1;
-      overflow-y: auto;
-      border: 1px solid #555;
-      padding: 10px;
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 5px;
-      margin-bottom: 20px;
-    }
-
-    .message {
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 5px;
-      position: relative;
-    }
-
-    .user-message {
-      background: #1a73e8;
-      color: #fff; 
-      text-align: right;
-    }
-
-    .bot-message {
-      background: #444;
-      color: #fff;
-      text-align: left;
-    }
-
-    .copy-btn {
+    /* Balloon styles */
+    .balloon {
       position: absolute;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
-      padding: 5px 10px;
-      background: #00ff00;
-      color: #000;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 12px;
+      bottom: -150px;
+      width: 50px;
+      height: 70px;
+      background: red;
+      border-radius: 50%;
+      box-shadow: inset -5px -10px rgba(0, 0, 0, 0.2);
+      animation: float 10s infinite;
     }
 
-    .copy-btn:hover {
-      background: #00cc00;
+    .balloon:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      width: 2px;
+      height: 50px;
+      background: #fff;
+      transform: translateX(-50%);
     }
 
-    .chat-input {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(-200px) rotate(5deg);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-800px) rotate(-5deg);
+        opacity: 0;
+      }
     }
 
-    .chat-input input {
-      flex-grow: 1;
-      padding: 10px;
-      border-radius: 5px;
-      border: none;
-      background: #333;
-      color: #fff;
+    /* Different balloon colors and animations */
+    .balloon:nth-child(1) {
+      background: red;
+      left: 10%;
+      animation-duration: 6s;
     }
 
-    .chat-input button {
-      padding: 10px 20px;
-      background: #007bff; /* Blue send button */
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      color: #fff;
+    .balloon:nth-child(2) {
+      background: blue;
+      left: 20%;
+      animation-duration: 8s;
+      animation-delay: 1s;
     }
 
-    .chat-input button:hover {
-      background: #0056b3;
+    .balloon:nth-child(3) {
+      background: green;
+      left: 30%;
+      animation-duration: 7s;
+      animation-delay: 2s;
     }
 
-    .suggestion-box {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+    .balloon:nth-child(4) {
+      background: yellow;
+      left: 40%;
+      animation-duration: 9s;
+      animation-delay: 1.5s;
     }
 
-    .suggestion {
-      padding: 5px 10px;
-      background: #555;
-      color: #fff;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
+    .balloon:nth-child(5) {
+      background: pink;
+      left: 50%;
+      animation-duration: 10s;
+      animation-delay: 0s;
     }
 
-    .suggestion:hover {
-      background: #00ff00;
-      color: #000;
+    .balloon:nth-child(6) {
+      background: orange;
+      left: 60%;
+      animation-duration: 6s;
+      animation-delay: 2.5s;
+    }
+
+    .balloon:nth-child(7) {
+      background: purple;
+      left: 70%;
+      animation-duration: 8s;
+      animation-delay: 3s;
     }
   </style>
 </head>
 <body>
-  <!-- Login Screen -->
+  <!-- Floating Balloons -->
   <div class="container">
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
     <div class="login-container active" id="login-container">
       <h2>Welcome to AYANFE THERAPIST AI✍️🎗️❣️</h2>
       <p>Please log in to continue.</p>
       <input type="text" id="username" class="input-field" placeholder="Enter your username" />
       <button class="btn" id="login-btn">Login</button>
+      
+      <!-- Links Section -->
+      <div style="margin-top: 20px;">
+        <p>Connect with me:</p>
+        <a href="https://www.facebook.com/profile.php?id=100090443419982" target="_blank" style="color: #00ff00; text-decoration: none;">Facebook</a> |
+        <a href="https://wa.me/2348039896597" target="_blank" style="color: #00ff00; text-decoration: none;">WhatsApp</a>
+      </div>
     </div>
 
     <!-- Chat Screen -->
@@ -185,13 +194,6 @@
       <div class="chat-input">
         <input type="text" id="chat-input" placeholder="Type your message..." />
         <button id="send-btn">Send</button>
-      </div>
-
-      <div class="suggestion-box" id="suggestion-box">
-        <span class="suggestion">Hi!</span>
-        <span class="suggestion">How are you?</span>
-        <span class="suggestion">Tell me a joke</span>
-        <span class="suggestion">What's the weather?</span>
       </div>
     </div>
   </div>
@@ -204,10 +206,6 @@
     const chatMessages = document.getElementById('chat-messages');
     const chatInput = document.getElementById('chat-input');
     const sendBtn = document.getElementById('send-btn');
-    const suggestionBox = document.getElementById('suggestion-box');
-
-    // Show the login screen initially
-    loginContainer.classList.add('active');
 
     loginBtn.addEventListener('click', () => {
       const usernameValue = usernameInput.value.trim();
@@ -216,43 +214,6 @@
         chatContainer.classList.add('active');
       }
     });
-
-    const addMessage = (message, isUser) => {
-      const messageDiv = document.createElement('div');
-      messageDiv.classList.add('message', isUser ? 'user-message' : 'bot-message');
-      messageDiv.textContent = message;
-      chatMessages.appendChild(messageDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    };
-
-    const sendMessage = () => {
-      const message = chatInput.value.trim();
-      if (!message) return;
-
-      addMessage(message, true);
-      chatInput.value = '';
-
-      fetch('/ask', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: message }),
-      })
-        .then(response => response.json())
-        .then(data => addMessage(data.answer, false))
-        .catch(error => console.error('Error:', error));
-    };
-
-    sendBtn.addEventListener('click', sendMessage);
-    chatInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') sendMessage();
-    });
-
-    suggestionBox.addEventListener('click', (e) => {
-      if (e.target.classList.contains('suggestion')) {
-        chatInput.value = e.target.textContent;
-        sendMessage();
-      }
-    });
   </script>
 </body>
-</html>
+  </html
