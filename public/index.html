@@ -230,13 +230,9 @@
     const sendBtn = document.getElementById('send-btn');
     const suggestionBox = document.getElementById('suggestion-box');
 
-    // Show the login screen initially
-    loginContainer.classList.add('active');
-    chatContainer.classList.remove('active');
-
     loginBtn.addEventListener('click', () => {
-      const usernameValue = usernameInput.value.trim();
-      if (usernameValue) {
+      const username = usernameInput.value.trim();
+      if (username) {
         loginContainer.classList.remove('active');
         chatContainer.classList.add('active');
       }
@@ -262,9 +258,9 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: message }),
       })
-        .then(response => response.json())
-        .then(data => addMessage(data.answer, false))
-        .catch(error => console.error('Error:', error));
+        .then((response) => response.json())
+        .then((data) => addMessage(data.answer, false))
+        .catch((error) => console.error('Error:', error));
     };
 
     sendBtn.addEventListener('click', sendMessage);
@@ -279,7 +275,6 @@
       }
     });
 
-    // Balloon animation
     const createBalloon = () => {
       const balloon = document.createElement('div');
       balloon.className = 'balloon';
@@ -290,11 +285,13 @@
       balloon.style.left = `${Math.random() * 100}%`;
       balloon.style.animationDuration = `${Math.random() * 5 + 3}s`;
       document.body.appendChild(balloon);
-
       balloon.addEventListener('animationend', () => balloon.remove());
     };
 
-    setInterval(createBalloon, 500);
+    // Add 5 balloons every 3 seconds
+    setInterval(() => {
+      for (let i = 0; i < 5; i++) createBalloon();
+    }, 3000);
   </script>
 </body>
-</html>
+</html
