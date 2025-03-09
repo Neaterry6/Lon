@@ -1,296 +1,438 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AYANFE THERAPIST AI ✍️🎗️💙❣️</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYANFE ✍️✨</title>
+<style>
+/* Reactions container */
+.reactions {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #000;
-      color: #fff;
-      transition: background-color 0.3s, color 0.3s;
-    }
+.reaction-bubble {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 15px;
+    background-color: #f1f1f1;
+    color: #333;
+    display: inline-block;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
-    .container {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+/* Emoji menu */
+.emoji-menu {
+    display: flex;
+    gap: 5px;
+    position: absolute;
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    padding: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
 
-    .login-container,
-    .chat-container {
-      display: none;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-    }
+.emoji-menu button {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
 
-    .login-container.active,
-    .chat-container.active {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+.emoji-menu button:hover {
+    transform: scale(1.2);
+}
 
-    .input-field {
-      width: 90%;
-      max-width: 400px;
-      padding: 10px;
-      margin: 10px auto;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      background: #333;
-      color: #fff;
+    /* Highlight message being replied to */
+    .message.replying {
+        border: 2px dashed #6a11cb;
+        padding: 12px;
     }
+        /* General styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .btn {
-      padding: 10px 20px;
-      margin: 10px auto;
-      background: #00ff00;
-      color: #000;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      max-width: 200px;
-    }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ece9e6, #ffffff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
 
-    .btn:hover {
-      background: #00cc00;
-    }
+        /* Chat container */
+        #chat-container {
+            width: 100%;
+            max-width: 400px;
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            border: 1px solid #dcdcdc;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), 0 8px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
 
-    .links a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 16px;
-      margin: 5px 0;
-      display: inline-block;
-    }
+        /* Header */
+        #chat-header {
+            background: linear-gradient(135deg, #6a11cb, #2575fc); /* Vibrant gradient */
+            color: #ffffff;
+            text-align: center;
+            padding: 15px 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
-    .links a:hover {
-      text-decoration: underline;
-    }
+        /* Messages area */
+        #messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f9f9f9; /* Light gray for the messages area */
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-    .chat-messages {
-      flex-grow: 1;
-      overflow-y: auto;
-      padding: 10px;
-      background: #222;
-      border-radius: 5px;
-      width: 90%;
-      max-width: 800px;
-    }
+        /* Message styling */
+        .message {
+            padding: 15px;
+            border-radius: 15px;
+            max-width: 70%;
+            font-size: 1rem;
+            word-wrap: break-word;
+            position: relative;
+            background: #e8f5fe; /* Soft blue for messages */
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
-    .message {
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 5px;
-      position: relative;
-    }
+        .sent {
+            align-self: flex-end;
+            background: #d4edda; /* Light green for sent messages */
+        }
 
-    .user-message {
-      background: #1a73e8;
-      color: #fff;
-      text-align: right;
-    }
+        .received {
+            align-self: flex-start;
+            background: #f8d7da; /* Light red for received messages */
+        }
 
-    .bot-message {
-      background: #444;
-      color: #fff;
-      text-align: left;
-    }
+        .timestamp {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            opacity: 0.7;
+            text-align: right;
+            color: #666;
+        }
 
-    .copy-btn {
-      position: absolute;
-      right: 10px;
-      bottom: 10px;
-      background: #00ff00;
-      border: none;
-      border-radius: 5px;
-      padding: 5px;
-      font-size: 12px;
-      color: #000;
-      cursor: pointer;
-    }
+        /* Input area */
+        #input-area {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #ffffff;
+            border-top: 1px solid #dcdcdc;
+            gap: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
 
-    .copy-btn:hover {
-      background: #00cc00;
-    }
+        #message-input {
+            flex: 1;
+            padding: 15px;
+            border-radius: 20px;
+            border: 1px solid #dcdcdc;
+            font-size: 1rem;
+            color: #333;
+            background: #f9f9f9;
+            outline: none;
+        }
 
-    .chat-input {
-      display: flex;
-      gap: 10px;
-      margin: 20px 0;
-      width: 90%;
-      max-width: 800px;
-    }
+        #message-input::placeholder {
+            color: #999;
+        }
 
-    .chat-input input {
-      flex-grow: 1;
-      padding: 10px;
-      border-radius: 5px;
-      border: none;
-      background: #333;
-      color: #fff;
-    }
+        #send-button, #upload-button {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-    .chat-input button {
-      padding: 10px 20px;
-      background: #007bff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      color: #fff;
-    }
+        #send-button:hover, #upload-button:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
 
-    .chat-input button:hover {
-      background: #0056b3;
-    }
+        #send-button:focus, #upload-button:focus {
+            outline: none;
+        }
 
-    .suggestion-box {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      width: 90%;
-      max-width: 800px;
-      margin: 20px 0;
-    }
+        #file-input {
+            display: none;
+        }
 
-    .suggestion {
-      padding: 5px 10px;
-      background: #555;
-      color: #fff;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-    }
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            #chat-container {
+                height: 100%;
+                border-radius: 0;
+            }
 
-    .suggestion:hover {
-      background: #00ff00;
-      color: #000;
-    }
-
-    body.light {
-      background-color: #f4f4f4;
-      color: #000;
-    }
-
-    body.light .input-field {
-      background: #ddd;
-      color: #000;
-    }
-
-    body.light .btn {
-      background: #007bff;
-      color: #fff;
-    }
-
-    body.light .chat-messages {
-      background: #e4e4e4;
-    }body.light .suggestion {
-      background: #ccc;
-      color: #000;
-    }
-
-    body.light .suggestion:hover {
-      background: #007bff;
-      color: #fff;
-    }
-  </style>
+            #send-button, #upload-button {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <button class="btn" id="toggle-mode" style="position: absolute; top: 10px; right: 10px;">🌙 Dark Mode</button>
-  <div class="container">
-    <!-- Login Screen -->
-    <div class="login-container active" id="login-container">
-      <h2>Welcome to AYANFE THERAPIST AI ✍️🎗️💙❣️</h2>
-      <p>Please log in to continue.</p>
-      <input type="text" id="username" class="input-field" placeholder="Enter your username" />
-      <button class="btn" id="login-btn">Login</button>
-      <div class="links">
-        <a href="https://www.facebook.com/profile.php?id=100090443419982" target="_blank">Visit My Facebook Profile</a>
-        <a href="https://wa.me/2348039896597" target="_blank">Connect with me on WhatsApp</a>
-      </div>
+    <div id="chat-container">
+        <h1 id="chat-header">Chat Room</h1>
+        <div id="messages"></div>
+        <div id="input-area">
+            <input id="message-input" type="text" placeholder="Type your message..." />
+            <button id="send-button">▶</button>
+            <button id="upload-button">📁</button>
+            <input id="file-input" type="file" />
+        </div>
     </div>
 
-    <!-- Chat Screen -->
-    <div class="chat-container" id="chat-container">
-      <h2>AYANFE THERAPIST AI ✍️🎗️💙❣️</h2>
-      <div class="chat-messages" id="chat-messages"></div>
-      <div class="chat-input">
-        <input type="text" id="chat-input" placeholder="Type your message..." />
-        <button id="send-btn">Send</button>
-      </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+const socket = io();
+const nickname = localStorage.getItem('nickname');
+const messagesDiv = document.getElementById('messages');
+const messageInput = document.getElementById('message-input');
+const sendButton = document.getElementById('send-button');
+const uploadButton = document.getElementById('upload-button');
+const fileInput = document.getElementById('file-input');
+let replyContext = null;
 
-      <div class="suggestion-box" id="suggestion-box">
-        <span class="suggestion">Hi!</span>
-        <span class="suggestion">How are you?</span>
-        <span class="suggestion">Tell me a joke</span>
-        <span class="suggestion">What's the weather?</span>
-      </div>
-    </div>
-  </div>
+if (!nickname) {
+    window.location.href = '/';
+}
 
-  <script>
-    const loginContainer = document.getElementById('login-container');
-    const chatContainer = document.getElementById('chat-container');
-    const loginBtn = document.getElementById('login-btn');
-    const usernameInput = document.getElementById('username');
-    const chatMessages = document.getElementById('chat-messages');
-    const chatInput = document.getElementById('chat-input');
-    const sendBtn = document.getElementById('send-btn');
-    const toggleMode = document.getElementById('toggle-mode');
+socket.emit('login', nickname, (response) => {
+    if (!response.success) {
+        alert(response.message);
+        localStorage.removeItem('nickname');
+        window.location.href = '/';
+    }
+});
 
-    loginBtn.addEventListener('click', () => {
-      const username = usernameInput.value.trim();
-      if (username) {
-        loginContainer.classList.remove('active');
-        chatContainer.classList.add('active');
-      }
+// Save messages to localStorage with timestamp
+function saveMessage(data) {
+    const storedMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+    storedMessages.push({ ...data, savedAt: Date.now() });
+    localStorage.setItem('chatMessages', JSON.stringify(storedMessages));
+    cleanOldMessages();
+}
+
+// Retrieve messages from localStorage and display them
+function loadMessages() {
+    const storedMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+    const now = Date.now();
+    storedMessages.forEach((message) => {
+        if (now - message.savedAt <= 86400000) {
+            displayMessage(message);
+        }
+    });
+}
+
+// Remove messages older than 1 day from localStorage
+function cleanOldMessages() {
+    const storedMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+    const now = Date.now();
+    const filteredMessages = storedMessages.filter((message) => now - message.savedAt <= 86400000);
+    localStorage.setItem('chatMessages', JSON.stringify(filteredMessages));
+}
+
+// Display a message (text or file)
+function displayMessage(data) {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message', data.user === nickname ? 'sent' : 'received');
+    messageElement.dataset.id = data.id;
+
+    // Handle replies
+    if (data.replyTo) {
+        const replyElement = document.createElement('div');
+        replyElement.classList.add('reply');
+        replyElement.textContent = `Replying to: ${data.replyTo}`;
+        messageElement.appendChild(replyElement);
+    }
+
+    // Main message content
+    const contentElement = document.createElement('div');
+    if (data.message) {
+        contentElement.textContent = `${data.user}: ${data.message}`;
+    } else if (data.fileUrl) {
+        const fileTypeText = data.fileType.startsWith('image/')
+            ? 'Image'
+            : data.fileType.startsWith('audio/')
+            ? 'Audio'
+            : data.fileType.startsWith('video/')
+            ? 'Video'
+            : 'File';
+        contentElement.textContent = `${data.user}: ${fileTypeText}`;
+        const mediaElement = createMediaElement(data.fileUrl, data.fileType);
+        if (mediaElement) {
+            contentElement.appendChild(mediaElement);
+        }
+    }
+    messageElement.appendChild(contentElement);
+
+    // Timestamp
+    const timestampElement = document.createElement('span');
+    timestampElement.classList.add('timestamp');
+    timestampElement.textContent = formatTimestamp(data.timestamp);
+    messageElement.appendChild(timestampElement);
+
+    // Reaction functionality
+    messageElement.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        showReactionMenu(messageElement, data.id);
     });
 
-    toggleMode.addEventListener('click', () => {
-      document.body.classList.toggle('light');
-      toggleMode.textContent = document.body.classList.contains('light') ? '☀️ Light Mode' : '🌙 Dark Mode';
+    messagesDiv.appendChild(messageElement);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+// Create a media element
+function createMediaElement(fileUrl, fileType) {
+    let mediaElement;
+    if (fileType.startsWith('image/')) {
+        mediaElement = document.createElement('img');
+        mediaElement.src = fileUrl;
+        mediaElement.alt = 'Uploaded Image';
+        mediaElement.style.maxWidth = '100%';
+        mediaElement.style.maxHeight = '200px';
+    } else if (fileType.startsWith('audio/')) {
+        mediaElement = document.createElement('audio');
+        mediaElement.controls = true;
+        mediaElement.src = fileUrl;
+    } else if (fileType.startsWith('video/')) {
+        mediaElement = document.createElement('video');
+        mediaElement.controls = true;
+        mediaElement.style.maxWidth = '100%';
+        mediaElement.src = fileUrl;
+    }
+    return mediaElement;
+}
+
+// Show reaction menu
+function showReactionMenu(messageElement, messageId) {
+    const emojiMenu = document.createElement('div');
+    emojiMenu.classList.add('emoji-menu');
+    const emojis = ['👍', '❤️', '😊', '😂'];
+    emojis.forEach((emoji) => {
+        const emojiButton = document.createElement('button');
+        emojiButton.textContent = emoji;
+        emojiButton.addEventListener('click', () => {
+            socket.emit('reactMessage', { messageId, emoji });
+            emojiMenu.remove();
+        });
+        emojiMenu.appendChild(emojiButton);
     });
+    messageElement.appendChild(emojiMenu);
 
-    const addMessage = (message, isUser) => {
-      const messageDiv = document.createElement('div');
-      messageDiv.classList.add('message', isUser ? 'user-message' : 'bot-message');
-      messageDiv.textContent = message;
+    document.addEventListener('click', () => emojiMenu.remove(), { once: true });
+}
 
-      chatMessages.appendChild(messageDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    };
+// Send a text message
+sendButton.addEventListener('click', () => {
+    const message = messageInput.value.trim();
+    if (message) {
+        socket.emit('chatMessage', { message, replyTo: replyContext });
+        messageInput.value = '';
+        replyContext = null;
+    }
+});
 
-    sendBtn.addEventListener('click', () => {
-      const message = chatInput.value.trim();
-      if (!message) return;
+// Handle file upload
+fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
 
-      addMessage(message, true);
-      chatInput.value = '';
+        fetch('/upload', {
+            method: 'POST',
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    const fileData = {
+                        user: nickname,
+                        fileUrl: data.fileUrl,
+                        fileType: file.type,
+                        timestamp: Date.now(),
+                    };
+                    socket.emit('fileMessage', fileData);
+                } else {
+                    alert('File upload failed!');
+                }
+            });
+    }
+});
 
-      // Simulate bot response
-      setTimeout(() => {
-        addMessage("I'm here to help!", false);
-      }, 1000);
-    });
-  </script>
+// Display incoming messages
+socket.on('chatMessage', (data) => {
+    saveMessage(data);
+    displayMessage(data);
+});
+
+socket.on('fileMessage', (data) => {
+    saveMessage(data);
+    displayMessage(data);
+});
+
+// Display reactions
+socket.on('messageReaction', (data) => {
+    const messageElement = [...messagesDiv.children].find((el) => el.dataset.id === data.messageId);
+    if (messageElement) {
+        let reactionContainer = messageElement.querySelector('.reactions');
+        if (!reactionContainer) {
+            reactionContainer = document.createElement('div');
+            reactionContainer.classList.add('reactions');
+            messageElement.appendChild(reactionContainer);
+        }
+
+        const reactionBubble = document.createElement('span');
+        reactionBubble.classList.add('reaction-bubble');
+        reactionBubble.textContent = data.emoji;
+        reactionContainer.appendChild(reactionBubble);
+    }
+});
+
+// Format timestamps
+function formatTimestamp(timestamp) {
+    const date = new Date(timestamp);
+    return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+}
+
+// Load messages on page load
+loadMessages();
+    </script>
 </body>
-        </html>
+</html>
