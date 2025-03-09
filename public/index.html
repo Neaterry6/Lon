@@ -144,25 +144,25 @@
     const chatInput = document.getElementById('chat-input');
     const sendBtn = document.getElementById('send-btn');
 
-    // Toggle dark/light mode
+    // Toggle between dark and light mode
     toggleBtn.addEventListener('click', () => {
       document.body.classList.toggle('light');
       toggleBtn.textContent = document.body.classList.contains('light') ? '🌙 Dark Mode' : '☀️ Light Mode';
-    });
-
-    // Login and show chat interfaceloginBtn.addEventListener('click', () => {
+    });// Login functionality to show chat screen
+    loginBtn.addEventListener('click', () => {
       const username = usernameInput.value.trim();
       const password = passwordInput.value.trim();
 
       if (username && password) {
+        // Hide login screen and show chat screen
         loginScreen.classList.remove('active');
         chatScreen.classList.add('active');
       } else {
-        alert("⚠️ Please enter both username and password.");
+        alert("⚠️ Please fill in both username and password!");
       }
     });
 
-    // Handle sending messages
+    // Chat functionality to handle messages
     const addMessage = (message, isUser) => {
       const messageDiv = document.createElement('div');
       messageDiv.classList.add('message', isUser ? 'user-message' : 'bot-message');
@@ -178,6 +178,8 @@
 
       addMessage(message, true);
       chatInput.value = '';
+
+      // Simulate bot response
       setTimeout(() => {
         addMessage("I'm here to help!", false);
       }, 1000);
