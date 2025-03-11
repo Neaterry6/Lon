@@ -11,6 +11,11 @@ const port = 8080;
 app.use(express.json());
 app.use(cors()); // Allow frontend requests
 
+// Root route to confirm the server is running
+app.get('/', (req, res) => {
+  res.send('Ayanfe AI API is running 🚀');
+});
+
 const chatHistoryDir = path.join(__dirname, 'groqllama70b');
 
 if (!fs.existsSync(chatHistoryDir)) {
@@ -37,6 +42,7 @@ const saveChatHistory = (uid, chatHistory) => {
   fs.writeFileSync(filePath, JSON.stringify(chatHistory, null, 2));
 };
 
+// AI Chat Route
 app.post('/ask', async (req, res) => {
   const { question, uid } = req.body;
   if (!question || !uid) {
