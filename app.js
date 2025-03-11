@@ -1,64 +1,58 @@
 const express = require('express');
-const cors = require('cors'); 
+const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
 const Groq = require('groq-sdk');
 
 const app = express();
 const port = 8080;
 
-app.use(cors());  // Enable CORS for frontend requests
-app.use(express.json()); 
+app.use(express.json());
+app.use(cors()); // Allow frontend requests
 
-const chatHistoryDir = path.join(__dirname, 'chat_history');
+const chatHistoryDir = path.join(__dirname, 'groqllama70b');
 
 if (!fs.existsSync(chatHistoryDir)) {
   fs.mkdirSync(chatHistoryDir);
 }
 
 const apiKey = process.env.GROQ_API_KEY || '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';
-const systemPrompt = "Your name is AYANFE, an AI chatbot created by AYANFE.";
+const systemPrompt = "Your name is AYANFE, a compassionate and professional AI therapist created to provide supportive and personalized therapy sessions.";
 
 const groq = new Groq({ apiKey });
 
+// Function to load chat history
 const loadChatHistory = (uid) => {
-  const chatHistoryFile = path.join(chatHistoryDir, `memory_${uid}.json`);
-  try {
-    if (fs.existsSync(chatHistoryFile)) {
-      return JSON.parse(fs.readFileSync(chatHistoryFile, 'utf8'));
-    } else {
-      return [];
-    }
-  } catch (error) {
-    console.error(`Error loading chat history for UID ${uid}:`, error);
-    return [];
+  const filePath = path.join(chatHistoryDir, `memory_${uid}.json`);
+  if (fs.existsSync(filePath)) {
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
   }
+  return [];
 };
 
-const appendToChatHistory = (uid, chatHistory) => {
-  const chatHistoryFile = path.join(chatHistoryDir, `memory_${uid}.json`);
-  try {
-    fs.writeFileSync(chatHistoryFile, JSON.stringify(chatHistory, null, 2));
-  } catch (error) {
-    console.error(`Error saving chat history for UID ${uid}:`, error);
-  }
+// Function to save chat history
+const saveChatHistory = (uid, chatHistory) => {
+  const filePath = path.join(chatHistoryDir, `memory_${uid}.json`);
+  fs.writeFileSync(filePath, JSON.stringify(chatHistory, null, 2));
 };
 
 app.post('/ask', async (req, res) => {
   const { question, uid } = req.body;
-  if (!question || !uid) return res.status(400).json({ error: 'Invalid request' });
+  if (!question || !uid) {
+    return res.status(400).json({ error: 'Question and UID are required' });
+  }
 
   const chatHistory = loadChatHistory(uid);
-  const timestamp = new Date().toLocaleTimeString();
 
   const chatMessages = [
     { role: "system", content: systemPrompt },
     ...chatHistory,
-    { role: "user", content: question, timestamp }
+    { role: "user", content: question }
   ];
 
   try {
-    const chatCompletion = await groq.chat.completions.create({
+    const response = await groq.chat.completions.create({
       messages: chatMessages,
       model: "llama3-70b-8192",
       temperature: 0.6,
@@ -66,24 +60,21 @@ app.post('/ask', async (req, res) => {
       top_p: 0.8
     });
 
-    const assistantResponse = chatCompletion.choices[0].message.content;
+    const aiResponse = response.choices[0].message.content;
+    const timestamp = new Date().toISOString();
 
     chatHistory.push({ role: "user", content: question, timestamp });
-    chatHistory.push({ role: "assistant", content: assistantResponse, timestamp });
+    chatHistory.push({ role: "assistant", content: aiResponse, timestamp });
 
-    appendToChatHistory(uid, chatHistory);
+    saveChatHistory(uid, chatHistory);
 
-    res.json({ answer: assistantResponse, timestamp });
+    res.json({ answer: aiResponse, timestamp });
   } catch (error) {
-    console.error("Error in chat completion:", error);
-    res.status(500).json({ error: 'Failed to retrieve answer' });
+    console.error("Error:", error);
+    res.status(500).json({ error: 'AI response failed' });
   }
 });
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
 app.listen(port, () => {
-  console.log(`Ayanfe AI is running on port ${port}`);
+  console.log(`Server running on port ${port}`);
 });
