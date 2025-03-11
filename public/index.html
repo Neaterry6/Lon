@@ -210,6 +210,23 @@
             if (message) {
                 displayMessage('user', message);
                 messageInput.value = '';
+
+                fetch('/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question: message, uid: 'user1' })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.answer) {
+                        displayMessage('ai', data.answer);
+                    } else {
+                        displayMessage('ai', 'Error: No response from AI.');
+                    }
+                })
+                .catch(error => {
+                    displayMessage('ai', 'Error: Could not reach AI.');
+                });
             }
         }
 
@@ -232,11 +249,9 @@
 
         function getCurrentTime() {
             const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            return `${hours}:${minutes}`;
+            return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }
     </script>
 
 </body>
-  </html>
+    </html>
