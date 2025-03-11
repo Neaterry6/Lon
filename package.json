@@ -1,5 +1,5 @@
 {
-  "name": "asta-api",
+  "name": "ayanfe",
   "version": "1.0.0",
   "scripts": {
     "start": "node app.js"
@@ -7,6 +7,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "express": "^4.17.1",
-    "groq-sdk": "^0.7.0"
+    "groq-sdk": "^0.7.0",
+    "cors": "^2.8.5"
   }
 }
