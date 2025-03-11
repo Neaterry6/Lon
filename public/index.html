@@ -23,7 +23,10 @@
         }
 
         .container {
-            width: 350px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
             background: #1e1e1e;
             border-radius: 10px;
             padding: 20px;
@@ -68,7 +71,8 @@
         .chat-container {
             display: none;
             flex-direction: column;
-            height: 500px;
+            height: 100%;
+            width: 100%;
         }
 
         .chat-header {
@@ -111,6 +115,16 @@
         .user-message { align-self: flex-end; background: #3a3a3a; color: white; }
         .ai-message { align-self: flex-start; background: #2c2c2c; color: white; }
 
+        .copy-btn {
+            margin-top: 5px;
+            padding: 5px;
+            background: #3a3a3a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
         .timestamp {
             font-size: 10px;
             color: #bbb;
@@ -146,9 +160,60 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        .dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: #ffffff;
+            color: black;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #3a3a3a;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .menu-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #3a3a3a;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .profile-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            background: #2c2c2c;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
-<body>
+<body class="dark-mode">
+    <div class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</div>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+    <div class="profile-menu" id="profileMenu">
+        <div>Profile Name: <span id="profileName"></span></div>
+        <div>Email: <span id="profileEmail"></span></div>
+    </div>
 
     <div class="container">
         <div id="signupSection">
@@ -184,11 +249,33 @@
     </div>
 
     <script>
+        function toggleDarkMode() {
+            const body = document.body;
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+            }
+        }
+
+        function toggleMenu() {
+            const profileMenu = document.getElementById('profileMenu');
+            profileMenu.style.display = profileMenu.style.display === 'block' ? 'none' : 'block';
+        }
+
         function signup() {
             switchToLogin();
         }
 
         function login() {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+
+            document.getElementById("profileName").innerText = name;
+            document.getElementById("profileEmail").innerText = email;
+
             document.getElementById("signupSection").style.display = "none";
             document.getElementById("loginSection").style.display = "none";
             document.getElementById("chatSection").style.display = "flex";
@@ -241,6 +328,18 @@
             timestamp.classList.add('timestamp');
             timestamp.innerText = getCurrentTime();
 
+            if (sender === 'ai') {
+                const copyButton = document.createElement('button');
+                copyButton.innerText = 'Copy';
+                copyButton.classList.add('copy-btn');
+                copyButton.onclick = () => {
+                    navigator.clipboard.writeText(message).then(() => {
+                        alert('Copied to clipboard');
+                    });
+                };
+                messageContainer.appendChild(copyButton);
+            }
+
             messageContainer.appendChild(timestamp);
             chatBody.appendChild(messageContainer);
 
@@ -254,4 +353,4 @@
     </script>
 
 </body>
-    </html>
+                </html>
