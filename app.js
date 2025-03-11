@@ -11,9 +11,12 @@ const port = 8080;
 app.use(express.json());
 app.use(cors()); // Allow frontend requests
 
-// Root route to confirm the server is running
+// Serve static files (CSS, images, JS)
+app.use(express.static('public'));
+
+// Serve the login/signup HTML page
 app.get('/', (req, res) => {
-  res.send('Ayanfe AI API is running 🚀');
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 const chatHistoryDir = path.join(__dirname, 'groqllama70b');
