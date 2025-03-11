@@ -1,332 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AYANFE THERAPIST AI ✍️🎗️💙❣️</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayanfe AI Chat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
-    body {
-      font-family: Arial, sans-serif;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #000; /* Deep black background */
-      overflow: hidden;
-      color: #fff;
-    }
+        body {
+            background-color: #121212;
+            color: white;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-    .container {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+        .container {
+            width: 350px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
+        }
 
-    .login-container,
-    .chat-container {
-      display: none;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-    }
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: gray;
+            object-fit: cover;
+        }
 
-    .login-container.active,
-    .chat-container.active {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #2c2c2c;
+            color: white;
+        }
 
-    .input-field {
-      width: 90%;
-      max-width: 400px;
-      padding: 10px;
-      margin: 10px auto;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      background: #333;
-      color: #fff;
-    }
+        .file-input {
+            display: none;
+        }
 
-    .btn {
-      padding: 10px 20px;
-      margin: 10px auto;
-      background: #00ff00;
-      color: #000;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      max-width: 200px;
-    }
+        .upload-btn, .start-chat-btn, .switch-btn {
+            width: 90%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-    .btn:hover {
-      background: #00cc00;
-    }
+        .upload-btn { background: #3a3a3a; color: white; }
+        .start-chat-btn { background: green; color: white; }
+        .switch-btn { background: #3a3a3a; color: white; }
 
-    .links a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 16px;
-      margin: 5px 0;
-      display: inline-block;
-    }
+        .chat-container {
+            display: none;
+            flex-direction: column;
+            height: 500px;
+        }
 
-    .links a:hover {
-      text-decoration: underline;
-    }
+        .chat-header {
+            background: #2c2c2c;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    .chat-messages {
-      flex-grow: 1;
-      overflow-y: auto;
-      padding: 10px;
-      background: #222;
-      border-radius: 5px;
-      width: 90%;
-      max-width: 800px;
-    }
+        .chat-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .message {
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 5px;
-      position: relative;
-    }
+        .message {
+            max-width: 80%;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.5s forwards;
+        }
 
-    .user-message {
-      background: #1a73e8;
-      color: #fff;
-      text-align: right;
-    }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .bot-message {
-      background: #444;
-      color: #fff;
-      text-align: left;
-    }
+        .user-message { align-self: flex-end; background: #3a3a3a; color: white; }
+        .ai-message { align-self: flex-start; background: #2c2c2c; color: white; }
 
-    .copy-btn {
-      position: absolute;
-      right: 10px;
-      bottom: 10px;
-      background: #00ff00;
-      border: none;
-      border-radius: 5px;
-      padding: 5px;
-      font-size: 12px;
-      color: #000;
-      cursor: pointer;
-    }
+        .timestamp {
+            font-size: 10px;
+            color: #bbb;
+            margin-top: 5px;
+            display: block;
+            text-align: right;
+        }
 
-    .copy-btn:hover {
-      background: #00cc00;
-    }
+        .chat-footer {
+            display: flex;
+            background: #2c2c2c;
+            padding: 10px;
+            align-items: center;
+        }
 
-    .chat-input {
-      display: flex;
-      gap: 10px;
-      margin: 20px 0;
-      width: 90%;
-      max-width: 800px;
-    }
+        .chat-input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+            background: #1e1e1e;
+            color: white;
+        }
 
-    .chat-input input {
-      flex-grow: 1;
-      padding: 10px;
-      border-radius: 5px;
-      border: none;
-      background: #333;
-      color: #fff;
-    }
-
-    .chat-input button {
-      padding: 10px 20px;
-      background: #007bff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      color: #fff;
-    }
-
-    .chat-input button:hover {
-      background: #0056b3;
-    }
-
-    .suggestion-box {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      width: 90%;
-      max-width: 800px;
-      margin: 20px 0;
-    }
-
-    .suggestion {
-      padding: 5px 10px;
-      background: #555;
-      color: #fff;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .suggestion:hover {
-      background: #00ff00;
-      color: #000;
-    }
-
-    .balloon {
-      position: absolute;
-      bottom: -50px;
-      border-radius: 50%;
-      opacity: 0.8;
-      animation: floatUp 6s ease-in infinite;
-    }
-
-    @keyframes floatUp {
-      0% {
-        transform: translateY(0);
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(-120vh);
-        opacity: 0;
-      }
-    }
-  </style>
+        .send-btn {
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            background: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Login Screen -->
-    <div class="login-container active" id="login-container">
-      <h2>Welcome to AYANFE THERAPIST AI ✍️🎗️💙❣️</h2>
-      <p>Please log in to continue.</p>
-      <input type="text" id="username" class="input-field" placeholder="Enter your username" />
-      <button class="btn" id="login-btn">Login</button>
-      <div class="links">
-        <a href="https://www.facebook.com/profile.php?id=100090443419982" target="_blank">Visit My Facebook Profile</a>
-        <a href="https://wa.me/2348039896597" target="_blank">Connect with me on WhatsApp</a>
-      </div>
+
+    <div class="container">
+        <div id="signupSection">
+            <h2>Signup</h2>
+            <img id="profilePic" class="profile-img" src="default-profile.png" alt="Profile Picture">
+            <input type="file" id="fileInput" class="file-input" accept="image/*">
+            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">Upload Photo</button>
+            <input type="text" id="signupName" placeholder="Enter your name">
+            <input type="email" id="signupEmail" placeholder="Enter your email">
+            <input type="password" id="signupPassword" placeholder="Enter your password">
+            <button class="start-chat-btn" onclick="signup()">Signup</button>
+            <button class="switch-btn" onclick="switchToLogin()">Already have an account? Click to Login</button>
+        </div>
+
+        <div id="loginSection" style="display: none;">
+            <h2>Login</h2>
+            <input type="email" id="loginEmail" placeholder="Enter your email">
+            <input type="password" id="loginPassword" placeholder="Enter your password">
+            <button class="start-chat-btn" onclick="login()">Login</button>
+            <button class="switch-btn" onclick="switchToSignup()">New user? Click to Signup</button>
+        </div>
+
+        <div id="chatSection" class="chat-container">
+            <div class="chat-header">
+                <span id="chatUsername">Ayanfe AI</span>
+            </div>
+            <div class="chat-body"></div>
+            <div class="chat-footer">
+                <input type="text" class="chat-input" placeholder="Type your message...">
+                <button class="send-btn" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
     </div>
 
-    <!-- Chat Screen -->
-    <div class="chat-container" id="chat-container">
-      <h2>AYANFE THERAPIST AI ✍️🎗️💙❣️</h2>
-      <div class="chat-messages" id="chat-messages"></div>
-      <div class="chat-input">
-        <input type="text" id="chat-input" placeholder="Type your message..." />
-        <button id="send-btn">Send</button>
-      </div>
+    <script>
+        function signup() {
+            switchToLogin();
+        }
 
-      <div class="suggestion-box" id="suggestion-box">
-        <span class="suggestion">Hi!</span>
-        <span class="suggestion">How are you?</span>
-        <span class="suggestion">Tell me a joke</span>
-        <span class="suggestion">What's the weather?</span>
-      </div>
-    </div>
-  </div>
+        function login() {
+            document.getElementById("signupSection").style.display = "none";
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("chatSection").style.display = "flex";
+        }
 
-  <script>
-    const loginContainer = document.getElementById('login-container');
-    const chatContainer = document.getElementById('chat-container');
-    const loginBtn = document.getElementById('login-btn');
-    const usernameInput = document.getElementById('username');
-    const chatMessages = document.getElementById('chat-messages');
-    const chatInput = document.getElementById('chat-input');
-    const sendBtn = document.getElementById('send-btn');
-    const suggestionBox = document.getElementById('suggestion-box');
+        function switchToLogin() {
+            document.getElementById('signupSection').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
+        }
 
-    // Show the login screen initially
-    loginContainer.classList.add('active');
-    chatContainer.classList.remove('active');
+        function switchToSignup() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('signupSection').style.display = 'block';
+        }
 
-    loginBtn.addEventListener('click', () => {
-      const usernameValue = usernameInput.value.trim();
-      if (usernameValue) {
-        loginContainer.classList.remove('active');
-        chatContainer.classList.add('active');
-      }
-    });
+        function sendMessage() {
+            const messageInput = document.querySelector('.chat-input');
+            const message = messageInput.value.trim();
+            if (message) {
+                displayMessage('user', message);
+                messageInput.value = '';
+            }
+        }
 
-    const addMessage = (message, isUser) => {
-      const messageDiv = document.createElement('div');
-      messageDiv.classList.add('message', isUser ? 'user-message' : 'bot-message');
-      messageDiv.textContent = message;
+        function displayMessage(sender, message) {
+            const chatBody = document.querySelector('.chat-body');
 
-      if (!isUser) {
-        const copyBtn = document.createElement('button');
-        copyBtn.classList.add('copy-btn');
-        copyBtn.textContent = 'Copy';
-        copyBtn.addEventListener('click', () => {
-          navigator.clipboard.writeText(message);
-          alert('Copied to clipboard!');
-        });
-        messageDiv.appendChild(copyBtn);
-      }
+            const messageContainer = document.createElement('div');
+            messageContainer.classList.add('message', sender === 'user' ? 'user-message' : 'ai-message');
+            messageContainer.innerText = message;
 
-      chatMessages.appendChild(messageDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    };
+            const timestamp = document.createElement('span');
+            timestamp.classList.add('timestamp');
+            timestamp.innerText = getCurrentTime();
 
-    const sendMessage = () => {
-      const message = chatInput.value.trim();
-      if (!message) return;
+            messageContainer.appendChild(timestamp);
+            chatBody.appendChild(messageContainer);
 
-      addMessage(message, true);
-      chatInput.value = '';
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
 
-      fetch('/ask', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: message }),
-      })
-        .then(response => response.json())
-        .then(data => addMessage(data.answer, false))
-        .catch(error => console.error('Error:', error));
-    };
+        function getCurrentTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            return `${hours}:${minutes}`;
+        }
+    </script>
 
-    sendBtn.addEventListener('click', sendMessage);
-    chatInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') sendMessage();
-    });
-
-    suggestionBox.addEventListener('click', (e) => {
-      if (e.target.classList.contains('suggestion')) {
-        chatInput.value = e.target.textContent;
-        sendMessage();
-      }
-    });
-
-    // Balloon animation (One balloon every 60 seconds)
-    const createBalloon = () => {
-      const balloon = document.createElement('div');
-      balloon.className = 'balloon';
-      const size = Math.random() * 50 + 30;
-      balloon.style.width = `${size}px`;
-      balloon.style.height = `${size}px`;
-      balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 50%)`;
-      balloon.style.left = `${Math.random() * 100}%`;
-      balloon.style.animationDuration = `${Math.random() * 5 + 3}s`;
-      document.body.appendChild(balloon);
-
-      balloon.addEventListener('animationend', () => {
-        balloon.remove();
-      });
-    };
-
-    setInterval(createBalloon, 60000); // One balloon every 60 seconds
-  </script>
 </body>
-    </html>
+  </html>
