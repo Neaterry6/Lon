@@ -10,11 +10,9 @@ const port = 8080;
 
 app.use(express.json());
 app.use(cors()); // Allow frontend requests
+app.use(express.static('public')); // Serve static files like HTML, CSS, JS
 
-// Serve static files (CSS, images, JS)
-app.use(express.static('public'));
-
-// Serve the login/signup HTML page
+// Serve the main HTML page
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -54,22 +52,23 @@ app.post('/ask', async (req, res) => {
     return res.status(400).json({ error: 'Question and UID are required' });
   }
 
-  const chatHistory = loadChatHistory(uid);
+  let chatHistory = loadChatHistory(uid);
 
-  const chatMessages = [
-    { role: "system", content: systemPrompt },
-    ...chatHistory,
-    { role: "user", content: question }
-  ];
+  // Create a new session for the user if it's the first message
+  if (chatHistory.length === 0) {
+    chatHistory = [{ role: "system", content: systemPrompt }];
+  }
+
+  chatHistory.push({ role: "user", content: question });
 
   try {
-    console.log(`User (${uid}) asked: ${question}`); // Debugging
+    console.log(`User (${uid}) asked: ${question}`);
 
     const response = await groq.chat.completions.create({
-      messages: chatMessages,
+      messages: chatHistory,
       model: "llama3-70b-8192",
       temperature: 0.6,
-      max_tokens: 8192,
+      max_tokens: 1024, // Reduce token size to avoid errors
       top_p: 0.8
     });
 
@@ -80,12 +79,12 @@ app.post('/ask', async (req, res) => {
     const aiResponse = response.choices[0].message.content;
     const timestamp = new Date().toISOString();
 
-    chatHistory.push({ role: "user", content: question, timestamp });
-    chatHistory.push({ role: "assistant", content: aiResponse, timestamp });
+    chatHistory.push({ role: "assistant", content: aiResponse });
 
+    // Save only last 10 messages for continuity
     saveChatHistory(uid, chatHistory);
 
-    console.log(`AI Response: ${aiResponse}`); // Debugging
+    console.log(`AI Response: ${aiResponse}`);
 
     res.json({ answer: aiResponse, timestamp });
   } catch (error) {
