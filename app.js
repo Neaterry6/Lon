@@ -25,7 +25,8 @@ if (!fs.existsSync(chatHistoryDir)) {
   fs.mkdirSync(chatHistoryDir);
 }
 
-const apiKey = process.env.GROQ_API_KEY || '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';
+// **Updated API Key**
+const apiKey = "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";
 const systemPrompt = "Your name is AYANFE, a compassionate and professional AI therapist created to provide supportive and personalized therapy sessions.";
 
 const groq = new Groq({ apiKey });
@@ -39,10 +40,11 @@ const loadChatHistory = (uid) => {
   return [];
 };
 
-// Function to save chat history
+// Function to save chat history (Limit to last 10 messages)
 const saveChatHistory = (uid, chatHistory) => {
   const filePath = path.join(chatHistoryDir, `memory_${uid}.json`);
-  fs.writeFileSync(filePath, JSON.stringify(chatHistory, null, 2));
+  const limitedHistory = chatHistory.slice(-10); // Keep only last 10 messages
+  fs.writeFileSync(filePath, JSON.stringify(limitedHistory, null, 2));
 };
 
 // AI Chat Route
@@ -61,6 +63,8 @@ app.post('/ask', async (req, res) => {
   ];
 
   try {
+    console.log(`User (${uid}) asked: ${question}`); // Debugging
+
     const response = await groq.chat.completions.create({
       messages: chatMessages,
       model: "llama3-70b-8192",
@@ -68,6 +72,10 @@ app.post('/ask', async (req, res) => {
       max_tokens: 8192,
       top_p: 0.8
     });
+
+    if (!response || !response.choices || response.choices.length === 0) {
+      throw new Error('AI did not return a response');
+    }
 
     const aiResponse = response.choices[0].message.content;
     const timestamp = new Date().toISOString();
@@ -77,10 +85,12 @@ app.post('/ask', async (req, res) => {
 
     saveChatHistory(uid, chatHistory);
 
+    console.log(`AI Response: ${aiResponse}`); // Debugging
+
     res.json({ answer: aiResponse, timestamp });
   } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ error: 'AI response failed' });
+    console.error("Error fetching AI response:", error);
+    res.status(500).json({ error: 'No response from AI. Please try again.' });
   }
 });
 
